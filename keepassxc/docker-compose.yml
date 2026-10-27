@@ -1,0 +1,19 @@
+services:
+  keepassxc:
+    image: lscr.io/linuxserver/keepassxc:latest
+    container_name: keepassxc
+    security_opt:
+      - seccomp:unconfined   # recomendado por linuxserver para la GUI en el navegador
+    environment:
+      - PUID=1000            # salida de `id -u` en el servidor
+      - PGID=1000            # salida de `id -g` en el servidor
+      - TZ=Europe/Madrid
+      - CUSTOM_USER=admin    # usuario del login web (autenticación básica)
+      - PASSWORD=CambiaEstaContrasena
+    volumes:
+      - ./config:/config     # configuración y bases de datos .kdbx persistentes
+    ports:
+      - "3000:3000"          # HTTP
+      - "3001:3001"          # HTTPS (certificado autofirmado)
+    shm_size: "1gb"
+    restart: unless-stopped

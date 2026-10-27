@@ -1,0 +1,31 @@
+# smtp4dev: proba-zerbitzari SMTP-a (https://github.com/rnwood/smtp4dev)
+#   - Web interfazea: http://localhost:5000
+#   - SMTP:           localhost:2525
+# bdweb: MariaDB, bdweb.sql-rekin hasieratuta (3307 portuan, 3306 beste proiektu batek erabiltzen du)
+services:
+  smtp4dev:
+    image: rnwood/smtp4dev:v3
+    container_name: smtp4dev
+    restart: unless-stopped
+    ports:
+      - "5000:80"
+      - "2525:25"
+    volumes:
+      - smtp4dev-data:/smtp4dev
+
+  bdweb:
+    image: mariadb:10.4
+    container_name: bdweb_db
+    restart: unless-stopped
+    environment:
+      MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: "1"
+      MARIADB_DATABASE: bdweb
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./bdweb.sql:/docker-entrypoint-initdb.d/bdweb.sql:ro
+      - bdweb-data:/var/lib/mysql
+
+volumes:
+  smtp4dev-data:
+  bdweb-data:

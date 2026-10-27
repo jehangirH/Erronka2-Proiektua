@@ -1,0 +1,39 @@
+services:
+  web:
+    build: .
+    container_name: erronka2_web
+    ports:
+      - "${WEB_PORT:-8088}:80"
+    environment:
+      DB_HOST: db
+      DB_USER: bdweb_app
+      DB_PASS: ${DB_PASS:-aldatu_pasahitz_hau}
+      DB_NAME: BDweb
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  db:
+    image: mariadb:11.4
+    container_name: erronka2_db
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASS:-aldatu_root_pasahitza}
+      MARIADB_DATABASE: BDweb
+      MARIADB_USER: bdweb_app
+      MARIADB_PASSWORD: ${DB_PASS:-aldatu_pasahitz_hau}
+    volumes:
+      - ./db/01-bdweb.sql:/docker-entrypoint-initdb.d/01-bdweb.sql:ro
+      - ./db/02-baimenak.sql:/docker-entrypoint-initdb.d/02-baimenak.sql:ro
+      - db_datuak:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+volumes:
+  db_datuak:

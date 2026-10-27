@@ -1,0 +1,7 @@
+Options -Indexes
+
+# Webgunearen parte ez diren fitxategiak ezkutatu
+RedirectMatch 404 /(\.idea|\.git|db|keepassxc|includes)(/|$)
+<FilesMatch "^(Dockerfile|docker-compose\.yml|conf\.php|.*\.sql|.*\.md|.*\.html?|.*\.docx|\.gitignore)$">
+    Require all denied
+</FilesMatch>
