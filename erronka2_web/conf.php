@@ -7,5 +7,5 @@ $mysql_pass = getenv('DB_PASS') ?: "aldatu_pasahitz_hau";
 $mysql_db = getenv('DB_NAME') ?: "BDweb";
 
 //Gallery
-$enpresa = "Proiektua";
+$enpresa = "Zubizarreta Galletak";
 $version = "1.1";

@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 "INSERT INTO users (username, password, rola, izena, abizena, hiria, lurraldea, herrialdea, postakodea, telefonoa, irudia)
                  VALUES (?, ?, 'bezeroa', ?, ?, ?, ?, ?, ?, ?, ?)",
                 'ssssssssss',
-                $data['email'], password_hash($pasahitza, PASSWORD_DEFAULT), $data['firstname'], $data['lastname'],
+                $data['email'], pasahitza_hasheatu($pasahitza), $data['firstname'], $data['lastname'],
                 $data['city'], $data['stateProv'], $data['country'], $data['postcode'], $data['telephone'], $irudia);
             birbideratu('index.php?action=login&erregistratuta=1');
         }

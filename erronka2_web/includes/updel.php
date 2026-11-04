@@ -77,7 +77,7 @@ $produktuak = mysqli_fetch_all(kontsulta($conx, "SELECT * FROM produktuak ORDER 
         <div class="ezabatu-elementua">
             <p><?= e($produktua['izena']) ?></p>
             <a href="images/<?= e($produktua['pic']) ?>"><img src="images/<?= e($produktua['pic']) ?>" alt="<?= e($produktua['izena']) ?>" class="miniatura"></a>
-            <form method="post" action="index.php?action=updel" onsubmit="return confirm('Ziur zaude?');">
+            <form method="post" action="index.php?action=updel" data-baieztatu="Ziur zaude?">
                 <?= csrf_eremua() ?>
                 <input type="hidden" name="ezabatu" value="<?= (int)$produktua['id'] ?>">
                 <button type="submit" class="esteka"><b>Produktua ezabatu</b></button>

@@ -10,13 +10,11 @@ $errorea = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     csrf_egiaztatu();
     $username = trim($_POST['username'] ?? '');
+    $pasahitza = $_POST['password'] ?? '';
     $user = mysqli_fetch_assoc(kontsulta($conx, "SELECT username, password, rola FROM users WHERE username = ?", 's', $username));
 
-    if ($user && pasahitza_egiaztatu($conx, $user['username'], $_POST['password'] ?? '', $user['password'])) {
-        session_regenerate_id(true);
-        $_SESSION['username'] = $user['username'];
-        $_SESSION['rola'] = $user['rola'];
-        unset($_SESSION['csrf']);
+    if ($user && pasahitza_egiaztatu($conx, $user['username'], $pasahitza, $user['password'])) {
+        saioa_ireki($user['username'], $user['rola'], pasahitza_hasheatu($pasahitza));
         birbideratu();
     }
     $errorea = 'Erabiltzailea edo pasahitza ez da zuzena.';
@@ -27,6 +25,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <legend>Saioa hasi</legend>
     <?php if (isset($_GET['erregistratuta'])): ?>
     <p class="mezua">Erregistroa eginda. Orain saioa has dezakezu.</p>
+    <?php endif; ?>
+    <?php if (isset($_GET['iraungita'])): ?>
+    <p class="errorea">Saioa amaitu da. Hasi saioa berriro.</p>
     <?php endif; ?>
     <?php if ($errorea): ?>
     <p class="errorea"><?= e($errorea) ?></p>

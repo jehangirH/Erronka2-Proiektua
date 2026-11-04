@@ -4,6 +4,29 @@ defined('SARRERA') or exit;
 const IRUDI_MOTAK = ['jpg' => 'image/jpeg', 'jpeg' => 'image/jpeg', 'png' => 'image/png', 'gif' => 'image/gif', 'webp' => 'image/webp'];
 const IRUDI_MAX = 2 * 1024 * 1024;
 const PASAHITZ_MIN = 8;
+const SAIO_INAKTIBITATEA = 30 * 60; // Jarduerarik gabe saioa ixteko denbora (segundotan)
+const SAIO_GEHIENEZ = 8 * 60 * 60;  // Saioaren gehieneko iraupena
+const SAIO_BERRITU = 15 * 60;       // Saio-IDa aldatzeko maiztasuna
+
+// Testu-eremuak bakarrik onartu: izena[]=x bezalako parametroek errore larriak eragiten dituzte.
+// $_POST['data'] da array bat izan daitekeen eremu bakarra (erregistro-formularioa).
+function sarrerak_garbitu() {
+    $data = $_POST['data'] ?? [];
+    $_GET = array_filter($_GET, 'is_string');
+    $_POST = array_filter($_POST, 'is_string');
+    if (is_array($data)) {
+        $_POST['data'] = array_filter($data, 'is_string');
+    }
+}
+
+// Babes-goiburuak. CSP-k kanpoko eta lerroko script-ak blokeatzen ditu, ihes bat ahaztuz gero ere.
+function segurtasun_goiburuak() {
+    header_remove('X-Powered-By');
+    header("Content-Security-Policy: default-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'");
+    header('X-Content-Type-Options: nosniff');
+    header('X-Frame-Options: DENY');
+    header('Referrer-Policy: same-origin');
+}
 
 // HTMLrako ihes egin (XSS saihesteko)
 function e($s) {
@@ -11,7 +34,7 @@ function e($s) {
 }
 
 function prezioa($n) {
-    return number_format((float)$n, 2, ',', '.') . ' €';
+    return number_format((float)$n, 2, ',', '.') . "\u{00A0}€"; // Zuriune zatiezina: € ez da lerro berrira pasatzen
 }
 
 function birbideratu($url = 'index.php') {
@@ -28,6 +51,70 @@ function saioa_du() {
 
 function admin_da() {
     return ($_SESSION['rola'] ?? '') === 'admin';
+}
+
+function saioa_abiarazi() {
+    ini_set('session.use_strict_mode', '1');
+    ini_set('session.use_only_cookies', '1');
+    ini_set('session.use_trans_sid', '0');
+    ini_set('session.gc_maxlifetime', (string)SAIO_INAKTIBITATEA);
+    session_set_cookie_params([
+        'httponly' => true,
+        'samesite' => 'Lax',
+        'secure' => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off',
+    ]);
+    session_start();
+}
+
+// Saioa hasi: IDa aldatu (session fixation saihesteko) eta erabiltzailearen datuak gorde.
+function saioa_ireki($username, $rola, $pasahitz_hash) {
+    session_regenerate_id(true);
+    $orain = time();
+    $_SESSION['username'] = $username;
+    $_SESSION['rola'] = $rola;
+    $_SESSION['aztarna'] = pasahitz_aztarna($pasahitz_hash);
+    $_SESSION['hasiera'] = $orain;
+    $_SESSION['azken_ekintza'] = $orain;
+    $_SESSION['berritua'] = $orain;
+    unset($_SESSION['csrf']);
+}
+
+// Saioa guztiz itxi: zerbitzariko datuak eta nabigatzaileko cookie-a ezabatu.
+function saioa_itxi() {
+    $_SESSION = [];
+    $cookie = session_get_cookie_params();
+    setcookie(session_name(), '', [
+        'expires' => time() - 3600,
+        'path' => $cookie['path'],
+        'domain' => $cookie['domain'],
+        'secure' => $cookie['secure'],
+        'httponly' => $cookie['httponly'],
+        'samesite' => $cookie['samesite'],
+    ]);
+    session_destroy();
+}
+
+// Eskaera bakoitzean: saioak balio du oraindik? Erabiltzailea ezabatu bada, pasahitza aldatu bada
+// edo denbora-muga pasa bada, saioa itxi egiten da. Rola beti datu-basetik hartzen da.
+function saioa_egiaztatu($conx) {
+    if (!saioa_du()) {
+        return;
+    }
+    $orain = time();
+    $user = mysqli_fetch_assoc(kontsulta($conx, "SELECT password, rola FROM users WHERE username = ?", 's', $_SESSION['username']));
+    if (!$user
+        || !hash_equals($_SESSION['aztarna'] ?? '', pasahitz_aztarna($user['password']))
+        || $orain - ($_SESSION['azken_ekintza'] ?? 0) > SAIO_INAKTIBITATEA
+        || $orain - ($_SESSION['hasiera'] ?? 0) > SAIO_GEHIENEZ) {
+        saioa_itxi();
+        birbideratu('index.php?action=login&iraungita=1');
+    }
+    $_SESSION['rola'] = $user['rola'];
+    $_SESSION['azken_ekintza'] = $orain;
+    if ($orain - ($_SESSION['berritua'] ?? 0) > SAIO_BERRITU) {
+        session_regenerate_id(true);
+        $_SESSION['berritua'] = $orain;
+    }
 }
 
 // Prestatutako kontsulta bat exekutatu. SELECT batean emaitza itzultzen du, bestela true.
@@ -61,13 +148,23 @@ function csrf_egiaztatu() {
     }
 }
 
-// Pasahitza egiaztatu. MD5 hash zaharrak ere onartzen dira, eta password_hash()-era eguneratzen dira.
+// Pasahitzak datu-basean gordetzeko hash-a (MD5).
+function pasahitza_hasheatu($pasahitza) {
+    return md5($pasahitza);
+}
+
+// Saioan pasahitzaren hash-a ez gordetzeko, haren aztarna bat erabiltzen da.
+function pasahitz_aztarna($hash) {
+    return hash('sha256', $hash);
+}
+
+// Pasahitza egiaztatu. Lehengo bcrypt hash-ak ere onartzen dira, eta saioa hastean MD5-era bihurtzen dira.
 function pasahitza_egiaztatu($conx, $username, $pasahitza, $hash) {
-    if (password_verify($pasahitza, $hash)) {
+    if (hash_equals($hash, pasahitza_hasheatu($pasahitza))) {
         return true;
     }
-    if (strlen($hash) === 32 && hash_equals($hash, md5($pasahitza))) {
-        kontsulta($conx, "UPDATE users SET password = ? WHERE username = ?", 'ss', password_hash($pasahitza, PASSWORD_DEFAULT), $username);
+    if (password_verify($pasahitza, $hash)) {
+        kontsulta($conx, "UPDATE users SET password = ? WHERE username = ?", 'ss', pasahitza_hasheatu($pasahitza), $username);
         return true;
     }
     return false;

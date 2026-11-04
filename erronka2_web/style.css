@@ -1,77 +1,154 @@
+/* Zubizarreta Galletak: gaileta-kolore epelak */
+:root {
+    --txokolatea: #3b2314;
+    --kakaoa: #5a3620;
+    --karamelua: #8a4412;
+    --urrea: #e3a84a;
+    --gaileta: #f1deb8;
+    --lerroa: #dcc193;
+    --krema: #fbf3e3;
+    --papera: #fffcf5;
+    --itzala: 0 2px 10px rgba(59, 35, 20, .10);
+    --izenburu-letra: Georgia, "Times New Roman", serif;
+}
+
 body {
-    background: aliceblue url("background.png") center top repeat-y;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
+    /* Apurrak: puntu txiki batzuk kremaren gainean */
+    background-color: var(--krema);
+    background-image:
+        radial-gradient(circle, rgba(138, 68, 18, .10) 1.5px, transparent 2px),
+        radial-gradient(circle, rgba(138, 68, 18, .06) 1px, transparent 1.5px);
+    background-size: 46px 46px, 31px 31px;
+    background-position: 0 0, 17px 23px;
+    font-family: "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
     font-size: 16px;
-    color: black;
+    line-height: 1.5;
+    color: var(--txokolatea);
 }
 
 h1 {
-    font-size: 36px;
-    color: maroon;
+    font-family: var(--izenburu-letra);
+    font-size: 40px;
+    font-weight: bold;
+    line-height: 1.1;
+    letter-spacing: .5px;
+    color: var(--krema);
     margin: 0;
 }
 
 h2 {
-    font-size: 20px;
-    color: black;
+    font-family: var(--izenburu-letra);
+    font-size: 24px;
+    color: var(--txokolatea);
     margin: 0 0 8px;
 }
 
 h3, h4 {
-    font-size: 16px;
+    font-family: var(--izenburu-letra);
+    font-size: 18px;
     margin: 0;
 }
 
 h4 {
-    color: maroon;
+    color: var(--karamelua);
 }
 
 input, textarea {
-    background-color: lightblue;
-    color: black;
-    border: 1px solid maroon;
+    box-sizing: border-box;
+    max-width: 100%;
+    background-color: #fff;
+    color: var(--txokolatea);
+    border: 1px solid var(--lerroa);
+    border-radius: 8px;
     font: inherit;
-    padding: 4px;
+    padding: 8px 10px;
 }
 
-button {
-    background-color: lightblue;
-    color: maroon;
-    border: 1px solid maroon;
+input:hover, textarea:hover {
+    border-color: var(--karamelua);
+}
+
+input::file-selector-button {
+    margin-right: 10px;
+    padding: 3px 12px;
+    background-color: var(--gaileta);
+    color: var(--txokolatea);
+    border: 1px solid var(--lerroa);
+    border-radius: 999px;
     font: inherit;
-    padding: 4px 12px;
     cursor: pointer;
 }
 
+input::file-selector-button:hover {
+    background-color: var(--urrea);
+}
+
+button {
+    background-color: var(--karamelua);
+    color: var(--papera);
+    border: 1px solid var(--karamelua);
+    border-radius: 999px;
+    font: inherit;
+    font-weight: 600;
+    padding: 7px 20px;
+    cursor: pointer;
+    transition: background-color .15s, color .15s;
+}
+
 button:hover {
-    background-color: maroon;
-    color: white;
+    background-color: var(--txokolatea);
+    border-color: var(--txokolatea);
+    color: var(--papera);
+}
+
+button[type=reset] {
+    background-color: transparent;
+    color: var(--karamelua);
+}
+
+button[type=reset]:hover {
+    background-color: var(--gaileta);
+    border-color: var(--karamelua);
+    color: var(--txokolatea);
+}
+
+:focus-visible {
+    outline: 3px solid var(--urrea);
+    outline-offset: 2px;
 }
 
 fieldset {
-    background-color: aliceblue;
-    border: 1px solid maroon;
-    margin: 0 0 12px;
+    min-width: 0;
+    box-sizing: border-box;
+    background-color: var(--papera);
+    border: 1px solid var(--lerroa);
+    border-radius: 16px;
+    box-shadow: var(--itzala);
+    margin: 0 0 20px;
+    padding: 14px 18px 18px;
 }
 
 legend {
-    color: maroon;
+    font-family: var(--izenburu-letra);
     font-weight: bold;
-    background-color: aliceblue;
-    border: 1px solid maroon;
-    border-bottom: 0;
-    padding: 2px 6px;
+    color: var(--krema);
+    background-color: var(--kakaoa);
+    border-radius: 999px;
+    padding: 3px 14px;
 }
 
 a {
     text-decoration: none;
-    color: maroon;
+    color: var(--karamelua);
 }
 
 a:hover, a:focus {
     text-decoration: underline;
-    color: black;
+    color: var(--txokolatea);
 }
 
 img {
@@ -81,68 +158,146 @@ img {
 
 /* Egitura */
 
-.goiburua, .menua, .bilaketa, main, .oina {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 0 16px;
+.goiburua, .menua, .bilaketa, .oina {
     box-sizing: border-box;
+    width: 100%;
+    padding-left: 16px;
+    padding-right: 16px;
+    background-color: var(--txokolatea);
 }
 
 .goiburua {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 20px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    border-bottom: 5px solid black;
+    gap: 18px;
+    padding-top: 18px;
+    padding-bottom: 8px;
+}
+
+.goiburua a {
+    display: block;
+    line-height: 0;
 }
 
 .menua {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     justify-content: center;
-    gap: 6px 16px;
-    padding-top: 12px;
-    padding-bottom: 8px;
-    font-weight: bold;
+    gap: 6px 22px;
+    padding-top: 8px;
+    padding-bottom: 12px;
+    font-weight: 600;
+    color: var(--gaileta);
 }
 
+.menua a, .menua .esteka {
+    color: var(--krema);
+}
+
+.menua a:hover, .menua a:focus, .menua .esteka:hover, .menua .esteka:focus {
+    color: var(--urrea);
+}
+
+/* Goiburuaren beheko ertza gaileta baten ertza bezalakoa da */
 .bilaketa {
+    position: relative;
     display: flex;
     justify-content: center;
-    gap: 6px;
-    padding-bottom: 12px;
-    border-bottom: 5px solid black;
+    gap: 8px;
+    padding-bottom: 16px;
+    margin-bottom: 14px;
+}
+
+.bilaketa::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    height: 14px;
+    background: radial-gradient(circle at 14px 0, var(--txokolatea) 14px, transparent 14.5px) 0 0 / 28px 14px repeat-x;
+}
+
+.bilaketa input[type=search] {
+    flex: 0 1 340px;
+    min-width: 0;
+    border-color: transparent;
+    border-radius: 999px;
+    padding: 7px 16px;
+    background-color: var(--krema);
+}
+
+.bilaketa button {
+    background-color: var(--urrea);
+    border-color: var(--urrea);
+    color: var(--txokolatea);
+}
+
+.bilaketa button:hover {
+    background-color: var(--krema);
+    border-color: var(--krema);
+    color: var(--txokolatea);
 }
 
 main {
-    padding-top: 20px;
-    padding-bottom: 20px;
+    box-sizing: border-box;
+    flex: 1;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 28px 16px 36px;
 }
 
 .oina {
+    position: relative;
+    margin-top: 14px;
     text-align: center;
-    padding-top: 10px;
-    padding-bottom: 20px;
-    border-top: 5px solid black;
+    padding-top: 12px;
+    padding-bottom: 18px;
+    color: var(--gaileta);
+    font-family: var(--izenburu-letra);
+}
+
+.oina::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 100%;
+    height: 14px;
+    background: radial-gradient(circle at 14px 14px, var(--txokolatea) 14px, transparent 14.5px) 0 0 / 28px 14px repeat-x;
 }
 
 /* Osagaiak */
 
 .kutxa {
-    max-width: 320px;
+    max-width: 380px;
     margin-left: auto;
     margin-right: auto;
 }
 
 .kutxa-zabala {
-    max-width: 600px;
+    max-width: 640px;
     text-align: center;
 }
 
 .testua {
     text-align: left;
+    background-color: var(--papera);
+    border: 1px solid var(--lerroa);
+    border-radius: 16px;
+    box-shadow: var(--itzala);
+    padding: 22px 26px;
+}
+
+.testua h2 + p {
+    margin-top: 0;
+}
+
+.testua p:last-child {
+    margin-bottom: 0;
 }
 
 .zutabeak {
@@ -161,7 +316,7 @@ main {
 
 .zutabeak > div {
     flex: 1 1 300px;
-    max-width: 320px;
+    max-width: 380px;
 }
 
 .zutabeak > div .kutxa {
@@ -171,12 +326,17 @@ main {
 .formularioa {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 6px;
+}
+
+.formularioa label {
+    font-weight: 600;
+    margin-top: 4px;
 }
 
 .formularioa button {
     align-self: center;
-    margin-top: 10px;
+    margin-top: 12px;
 }
 
 .lerroan {
@@ -186,38 +346,42 @@ main {
 .esteka {
     background: none;
     border: 0;
+    border-radius: 0;
     padding: 0;
-    color: maroon;
+    color: var(--karamelua);
     font-weight: inherit;
 }
 
 .esteka:hover, .esteka:focus {
     background: none;
-    color: black;
+    color: var(--txokolatea);
     text-decoration: underline;
 }
 
 .mezua, .errorea {
-    max-width: 600px;
-    margin: 0 auto 12px;
-    padding: 6px 10px;
+    max-width: 640px;
+    box-sizing: border-box;
+    margin: 0 auto 16px;
+    padding: 8px 14px;
     text-align: center;
     border: 1px solid;
+    border-radius: 10px;
 }
 
 .mezua {
-    color: #1d5e20;
-    background-color: #e5f4e5;
+    color: #2c5a26;
+    background-color: #e9f3df;
 }
 
 .errorea {
-    color: #8b0000;
-    background-color: #fbe3e3;
+    color: #8f1d14;
+    background-color: #fbe6df;
 }
 
 .register .errorea {
     display: block;
     margin: 4px 0 0;
+    padding: 4px 10px;
     text-align: left;
 }
 
@@ -232,25 +396,91 @@ main {
 
 .produktua {
     display: flex;
-    gap: 20px;
+    gap: 24px;
     margin-bottom: 20px;
+    padding: 18px;
+    background-color: var(--papera);
+    border: 1px solid var(--lerroa);
+    border-radius: 16px;
+    box-shadow: var(--itzala);
 }
 
 .produktua-irudia {
-    flex: 0 0 40%;
+    flex: 0 0 34%;
     text-align: center;
 }
 
+.produktua-irudia img {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    max-height: 280px;
+    object-fit: contain;
+    padding: 8px;
+    background-color: #fff;
+}
+
 .produktua-irudia img, .produktu-argazkia, .miniatura {
-    border: 1px solid maroon;
+    border: 1px solid var(--lerroa);
+    border-radius: 12px;
 }
 
 .produktua-datuak {
     flex: 1;
+    min-width: 0;
+    overflow-wrap: anywhere;
 }
 
+/* Produktuaren barruko atalak: kutxarik gabe, etiketa txiki batekin */
+.produktua-datuak fieldset {
+    background: none;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    margin: 0 0 12px;
+    padding: 0;
+}
+
+.produktua-datuak legend {
+    padding: 0;
+    background: none;
+    color: var(--karamelua);
+    font-family: inherit;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.produktua-datuak p {
+    margin: 0;
+}
+
+.produktua-datuak fieldset:first-child p {
+    font-family: var(--izenburu-letra);
+    font-size: 22px;
+    font-weight: bold;
+    line-height: 1.25;
+}
+
+.saskia {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background-color: var(--urrea);
+    transition: background-color .15s;
+}
+
+.saskia:hover, .saskia:focus {
+    background-color: var(--gaileta);
+}
+
+/* Ikonoak atzealde zuria du: multiply-rekin zirkuluaren kolorea ikusten da */
 .saskia img {
-    width: 60px;
+    width: 34px;
+    mix-blend-mode: multiply;
 }
 
 .produktu-argazkia {
@@ -259,27 +489,42 @@ main {
 }
 
 .miniatura {
+    display: block;
     max-width: 150px;
+    margin-bottom: 6px;
 }
 
 .ezabatu-elementua {
     padding-bottom: 12px;
     margin-bottom: 12px;
-    border-bottom: 1px dashed maroon;
+    border-bottom: 1px dashed var(--lerroa);
+    overflow-wrap: anywhere;
+}
+
+.ezabatu-elementua:last-child {
+    padding-bottom: 0;
+    margin-bottom: 0;
+    border-bottom: 0;
 }
 
 .ezabatu-elementua p {
-    margin: 0 0 4px;
+    margin: 0 0 6px;
+    font-weight: 600;
 }
 
 .erabiltzaileak {
     width: 100%;
-    border-spacing: 2px;
+    border-collapse: collapse;
 }
 
 .erabiltzaileak td {
-    background-color: lightblue;
-    padding: 2px 4px;
+    padding: 6px 4px;
+    border-bottom: 1px dashed var(--lerroa);
+    overflow-wrap: anywhere;
+}
+
+.erabiltzaileak tr:last-child td {
+    border-bottom: 0;
 }
 
 .eskuinera {
@@ -289,35 +534,48 @@ main {
 
 .register {
     text-align: left;
+    background-color: var(--papera);
+    border: 1px solid var(--lerroa);
+    border-radius: 16px;
+    box-shadow: var(--itzala);
+    padding: 22px 26px;
 }
 
 .register h2 {
     padding: 0 0 7px;
-    color: #3b1c00;
-    border-bottom: 1px dashed #3b1c00;
-    margin-bottom: 5px;
+    border-bottom: 1px dashed var(--lerroa);
+    margin-bottom: 10px;
 }
 
 .register form p {
     margin: 0;
-    padding-top: 5px;
+    padding-top: 8px;
 }
 
 .register label {
     display: inline-block;
     width: 170px;
+    margin-top: 0;
 }
 
 .register input[type=text],
 .register input[type=email],
 .register input[type=tel],
 .register input[type=password] {
-    width: 220px;
+    width: 260px;
+}
+
+.register form button {
+    margin: 8px 6px 0 0;
 }
 
 @media (max-width: 600px) {
     h1 {
-        font-size: 26px;
+        font-size: 28px;
+    }
+
+    .goiburua {
+        gap: 12px;
     }
 
     .goiburua img {
@@ -326,6 +584,14 @@ main {
 
     .produktua {
         flex-direction: column;
+    }
+
+    .produktua-irudia {
+        flex: none;
+    }
+
+    .testua, .register {
+        padding: 18px;
     }
 
     .register label {
@@ -338,6 +604,5 @@ main {
     .register input[type=tel],
     .register input[type=password] {
         width: 100%;
-        box-sizing: border-box;
     }
 }

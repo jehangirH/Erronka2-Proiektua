@@ -18,9 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } elseif (strlen($berria) < PASAHITZ_MIN) {
             $errorea = 'Pasahitzak gutxienez ' . PASAHITZ_MIN . ' karaktere izan behar ditu.';
         } else {
-            kontsulta($conx, "UPDATE users SET password = ? WHERE username = ?", 'ss', password_hash($berria, PASSWORD_DEFAULT), $_SESSION['username']);
-            $_SESSION = [];
-            session_destroy();
+            kontsulta($conx, "UPDATE users SET password = ? WHERE username = ?", 'ss', pasahitza_hasheatu($berria), $_SESSION['username']);
+            saioa_itxi();
             birbideratu('index.php?action=login');
         }
     }
@@ -34,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } elseif (mysqli_fetch_row(kontsulta($conx, "SELECT 1 FROM users WHERE username = ?", 's', $newuser))) {
             $errorea = 'Erabiltzaile hori badago.';
         } else {
-            kontsulta($conx, "INSERT INTO users (username, password, rola) VALUES (?, ?, 'bezeroa')", 'ss', $newuser, password_hash($newuserpass, PASSWORD_DEFAULT));
+            kontsulta($conx, "INSERT INTO users (username, password, rola) VALUES (?, ?, 'bezeroa')", 'ss', $newuser, pasahitza_hasheatu($newuserpass));
             $mezua = 'Erabiltzailea gehituta: ' . $newuser;
         }
     }
@@ -105,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <?php if ($nirea): ?>
                         <del>[ezabatu]</del>
                     <?php else: ?>
-                        <form method="post" action="index.php?action=account" class="lerroan" onsubmit="return confirm('Ziur zaude?');">
+                        <form method="post" action="index.php?action=account" class="lerroan" data-baieztatu="Ziur zaude?">
                             <?= csrf_eremua() ?>
                             <input type="hidden" name="ekintza" value="deleteuser">
                             <input type="hidden" name="username" value="<?= e($user['username']) ?>">

@@ -2,13 +2,31 @@
 
 define('SARRERA', true);
 
+// Erroreak logean gorde, inoiz ez erabiltzaileari erakutsi
+ini_set('display_errors', '0');
+ini_set('log_errors', '1');
+
 ob_start();
-session_set_cookie_params(['httponly' => true, 'samesite' => 'Lax']);
-session_start();
+
+set_exception_handler(function ($ex) {
+    error_log((string)$ex);
+    while (ob_get_level()) {
+        ob_end_clean();
+    }
+    http_response_code(500);
+    exit('Errore bat gertatu da. Saiatu berriro geroago.');
+});
 
 include("conf.php");
 include("includes/funtzioak.php");
+
+segurtasun_goiburuak();
+sarrerak_garbitu();
+saioa_abiarazi();
+
 include("includes/mysql.php");
+
+saioa_egiaztatu($conx);
 
 // Onartutako orriak (zerrenda zuria). Beste edozein balio hasierako orrira doa.
 $orriak = ['main', 'search', 'register', 'login', 'logout', 'account', 'updel', 'description', 'about'];
@@ -23,8 +41,7 @@ if (!in_array($action, $orriak, true) || $action == 'search') {
 if ($action == 'logout') {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         csrf_egiaztatu();
-        $_SESSION = [];
-        session_destroy();
+        saioa_itxi();
     }
     birbideratu();
 }
@@ -41,13 +58,15 @@ if (in_array($action, $admin_behar, true) && !admin_da()) {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="<?= e($enpresa) ?>: produktuen katalogoa eta denda">
+<meta name="description" content="<?= e($enpresa) ?>: gaileten katalogoa eta denda">
 <title><?= e($enpresa) ?></title>
+<link rel="icon" href="logo.svg" type="image/svg+xml">
 <link rel="stylesheet" href="style.css">
+<script src="baieztatu.js" defer></script>
 </head>
 <body>
 <header class="goiburua">
-    <a href="index.php"><img src="logo.png" alt="<?= e($enpresa) ?> logotipoa" width="115" height="110"></a>
+    <a href="index.php"><img src="logo.svg" alt="<?= e($enpresa) ?> logotipoa" width="100" height="100"></a>
     <h1><?= e($enpresa) ?></h1>
 </header>
 
@@ -73,7 +92,7 @@ if (in_array($action, $admin_behar, true) && !admin_da()) {
 <form class="bilaketa" method="get" action="index.php" role="search">
     <input type="hidden" name="action" value="search">
     <label for="keyword" class="ezkutua">Bilatu produktuak</label>
-    <input type="search" id="keyword" name="keyword" value="<?= e($_GET['keyword'] ?? '') ?>">
+    <input type="search" id="keyword" name="keyword" placeholder="Bilatu produktuak..." value="<?= e($_GET['keyword'] ?? '') ?>">
     <button type="submit">Bilatu</button>
 </form>
 
