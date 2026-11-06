@@ -1,9 +1,22 @@
 services:
+  nginx:
+    image: nginx:1.28-alpine
+    container_name: erronka2_nginx
+    ports:
+      - "${WEB_PORT:-8088}:80"
+      - "443:443"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      # Zerbitzariko ziurtagiria eta gako pribatua
+      - ${SSL_CERT:-./nginx/ssl/erronka2.crt}:/etc/nginx/ssl/erronka2.crt:ro
+      - ${SSL_KEY:-./nginx/ssl/erronka2.key}:/etc/nginx/ssl/erronka2.key:ro
+    depends_on:
+      - web
+    restart: unless-stopped
+
   web:
     build: .
     container_name: erronka2_web
-    ports:
-      - "${WEB_PORT:-8088}:80"
     environment:
       DB_HOST: db
       DB_USER: bdweb_app

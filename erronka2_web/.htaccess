@@ -1,7 +1,10 @@
 Options -Indexes
 
+# HTTPS nginx-en amaitzen da: PHP-ri jakinarazi (saioaren cookie-a Secure izan dadin)
+SetEnvIf X-Forwarded-Proto "^https$" HTTPS=on
+
 # Webgunearen parte ez diren fitxategiak ezkutatu
-RedirectMatch 404 /(\.idea|\.git|db|keepassxc|includes)(/|$)
+RedirectMatch 404 /(\.idea|\.git|db|keepassxc|includes|nginx)(/|$)
 <FilesMatch "^(Dockerfile|docker-compose\.yml|conf\.php|.*\.sql|.*\.md|.*\.html?|.*\.docx|\.gitignore)$">
     Require all denied
 </FilesMatch>
