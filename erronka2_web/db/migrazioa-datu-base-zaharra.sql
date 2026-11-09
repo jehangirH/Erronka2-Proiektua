@@ -1,5 +1,5 @@
 -- Lehendik dagoen BDweb datu-base bat bertsio berrira egokitzeko (XAMPP).
--- MD5 pasahitzek funtzionatzen jarraitzen dute, eta bcrypt hash-ak saioa hastean MD5-era bihurtzen dira.
+-- MD5 pasahitz zaharrek funtzionatzen jarraitzen dute, eta saioa hastean bcrypt-era (password_hash) eguneratzen dira.
 USE BDweb;
 
 ALTER TABLE users MODIFY password VARCHAR(255) NOT NULL;

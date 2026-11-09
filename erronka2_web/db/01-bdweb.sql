@@ -29,8 +29,8 @@ CREATE TABLE produktuak (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO users (username, password, rola, izena, abizena, irudia) VALUES
-('admin@bdweb', '751cb3f4aa17c36186f4856c8982bf27', 'admin', 'Admin', 'Proiektua', 'Soy_Admin.jpg'),
-('bezeroa@bdweb.eus', 'ec90323a9587a8075c458b7549549496', 'bezeroa', 'Bezeroa', 'Proba', 'usuario.jpg');
+('admin@bdweb', '$2y$10$USSxBZhfnNDyqnLn3l6OPOm3C2sJ2bflkkYPWFQ4aoblLdYZvAPUW', 'admin', 'Admin', 'Proiektua', 'Soy_Admin.jpg'),
+('bezeroa@bdweb.eus', '$2y$10$D01oSdGKJ9KTrPyRA0hOUemrFKhBEZyd7B21cxf5e/9iReHXpXI7S', 'bezeroa', 'Bezeroa', 'Proba', 'usuario.jpg');
 
 INSERT INTO produktuak (izena, deskripzioa, salneurria, pic, stock) VALUES
 ('Produktu generikoa', 'Produktu generikoaren deskripzioa.', 19.95, 'generikoa.jpg', 10),

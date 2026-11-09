@@ -13,8 +13,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pasahitza = $_POST['password'] ?? '';
     $user = mysqli_fetch_assoc(kontsulta($conx, "SELECT username, password, rola FROM users WHERE username = ?", 's', $username));
 
-    if ($user && pasahitza_egiaztatu($conx, $user['username'], $pasahitza, $user['password'])) {
-        saioa_ireki($user['username'], $user['rola'], pasahitza_hasheatu($pasahitza));
+    $hash = $user ? pasahitza_egiaztatu($conx, $user['username'], $pasahitza, $user['password']) : null;
+    if ($hash) {
+        saioa_ireki($user['username'], $user['rola'], $hash);
         birbideratu();
     }
     $errorea = 'Erabiltzailea edo pasahitza ez da zuzena.';

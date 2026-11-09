@@ -148,9 +148,10 @@ function csrf_egiaztatu() {
     }
 }
 
-// Pasahitzak datu-basean gordetzeko hash-a (MD5).
+// Pasahitzak datu-basean gordetzeko hash-a: bcrypt (password_hash). Gatz ausazkoa hash bakoitzean,
+// eta kostu-faktorea: hash bakoitza kalkulatzeak denbora behar du, eta indar gordinezko erasoak motelak dira.
 function pasahitza_hasheatu($pasahitza) {
-    return md5($pasahitza);
+    return password_hash($pasahitza, PASSWORD_DEFAULT);
 }
 
 // Saioan pasahitzaren hash-a ez gordetzeko, haren aztarna bat erabiltzen da.
@@ -158,16 +159,22 @@ function pasahitz_aztarna($hash) {
     return hash('sha256', $hash);
 }
 
-// Pasahitza egiaztatu. Lehengo bcrypt hash-ak ere onartzen dira, eta saioa hastean MD5-era bihurtzen dira.
+// Pasahitza egiaztatu. Zuzena bada, datu-basean geratzen den hash-a itzultzen du; bestela, null.
+// Datu-base zaharreko MD5 hash-ak behin onartzen dira eta berehala bcrypt-era bihurtzen dira.
 function pasahitza_egiaztatu($conx, $username, $pasahitza, $hash) {
-    if (hash_equals($hash, pasahitza_hasheatu($pasahitza))) {
-        return true;
-    }
     if (password_verify($pasahitza, $hash)) {
-        kontsulta($conx, "UPDATE users SET password = ? WHERE username = ?", 'ss', pasahitza_hasheatu($pasahitza), $username);
-        return true;
+        if (password_needs_rehash($hash, PASSWORD_DEFAULT)) {
+            $hash = pasahitza_hasheatu($pasahitza);
+            kontsulta($conx, "UPDATE users SET password = ? WHERE username = ?", 'ss', $hash, $username);
+        }
+        return $hash;
     }
-    return false;
+    if (strlen($hash) === 32 && hash_equals($hash, md5($pasahitza))) {
+        $hash = pasahitza_hasheatu($pasahitza);
+        kontsulta($conx, "UPDATE users SET password = ? WHERE username = ?", 'ss', $hash, $username);
+        return $hash;
+    }
+    return null;
 }
 
 // Igotako irudia egiaztatu eta $karpeta-n gorde ausazko izen batekin.
