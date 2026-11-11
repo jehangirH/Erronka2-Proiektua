@@ -1,244 +1,125 @@
 <!doctype html>
 <html lang="eu">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Erronka 2 · Planifikazioa — Zubizarreta gailetak</title>
-  <meta name="description" content="Erronka 2 (Egiturak indartzen) proiektuaren 1. atalaren planifikazioa: kronograma, atazak, taldea eta aurrerapena.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 4 7v8c0 7.5 5.1 13.4 12 15 6.9-1.6 12-7.5 12-15V7z' fill='%232563eb'/%3E%3Cpath d='m11 16 4 4 7-8' stroke='white' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Erronka 2 · Planifikazioa — Zubizarreta gailetak</title>
+<meta name="description" content="Erronka 2 (Egiturak indartzen) proiektuaren planifikazioa: atalak, kronograma, atazak eta taldearen ardurak.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 4 7v8c0 7.5 5.1 13.4 12 15 6.9-1.6 12-7.5 12-15V7z' fill='%231e3a8a'/%3E%3C/svg%3E">
 </head>
 <body>
 
-<header class="topbar">
-  <div class="wrap topbar-in">
-    <a class="brand" href="#">
-      <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 4 7v8c0 7.5 5.1 13.4 12 15 6.9-1.6 12-7.5 12-15V7z" fill="currentColor"/><path d="m11 16 4 4 7-8" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
-      <span>Erronka 2 <em>· Planifikazioa</em></span>
-    </a>
-    <nav class="nav" aria-label="Atalak">
+<header class="top">
+  <div class="wrap top-in">
+    <a class="brand" href="#">Erronka 2 <span>· Planifikazioa</span></a>
+    <nav aria-label="Atalak">
       <a href="#laburpena">Laburpena</a>
-      <a href="#irismena">Irismena</a>
       <a href="#kronograma">Kronograma</a>
       <a href="#atazak">Atazak</a>
       <a href="#taldea">Taldea</a>
-      <a href="#metodologia">Metodologia</a>
+      <a href="#oharrak">Oharrak</a>
     </nav>
   </div>
 </header>
 
-<section class="hero">
+<section class="intro">
   <div class="wrap">
-    <p class="eyebrow">Zubizarreta gailetak · Zibersegurtasuneko espezializazio-ikastaroa · UNI Eibar-Ermua</p>
-    <h1>Erronka 2 — <span>Egiturak indartzen</span></h1>
-    <p class="lead">Proiektuaren planifikazioa: <strong>1. atala (2.1)</strong>. Orri honetan ikus daiteke zer egingo den, noiz, nork eta zein egoeratan dagoen ataza bakoitza, enpresaren azpiegitura gotortzeko eta segurtasuna ebaluatzeko.</p>
-    <div class="hero-meta">
-      <div><span>Epea</span><strong id="h-epea">—</strong></div>
-      <div><span>Taldea</span><strong id="h-taldea">—</strong></div>
-      <div><span>Entrega</span><strong id="h-entrega">—</strong></div>
-      <div><span>Azken eguneratzea</span><strong id="h-eguneratua">—</strong></div>
-    </div>
+    <p class="eyebrow" id="i-ikastaroa"></p>
+    <h1>Erronka 2 — Egiturak indartzen</h1>
+    <p class="lead">Zubizarreta gailetak enpresaren azpiegitura gotortzeko proiektuaren planifikazioa. Orri honek erakusten du <strong>zer</strong> egingo den, <strong>noiz</strong>, <strong>nork</strong> eta ataza bakoitza <strong>zein egoeratan</strong> dagoen.</p>
+    <dl class="meta">
+      <div><dt>Enpresa</dt><dd id="i-enpresa"></dd></div>
+      <div><dt>Taldea</dt><dd id="i-taldea"></dd></div>
+      <div><dt>Epea</dt><dd id="i-epea"></dd></div>
+      <div><dt>Azken eguneratzea</dt><dd id="i-eguneratua"></dd></div>
+    </dl>
+    <ol class="howto">
+      <li><b>Laburpena</b> — atal bakoitzaren helburua eta aurrerapena.</li>
+      <li><b>Kronograma</b> — atazen datak, egunez egun.</li>
+      <li><b>Atazak</b> — zerrenda osoa: arduradunak, orduak eta egoera.</li>
+    </ol>
   </div>
 </section>
 
 <main>
-
-  <!-- LABURPENA -->
-  <section id="laburpena" class="section">
+  <section id="laburpena" class="sec">
     <div class="wrap">
-      <div class="sec-head">
-        <p class="kicker">01</p>
-        <h2>Laburpena</h2>
-        <p>Proiektuaren egoera orokorra, atazen eta orduen arabera.</p>
-      </div>
-
-      <div class="kpis" id="kpis"></div>
-
-      <div class="progress-card card">
-        <div class="pc-top">
-          <div>
-            <h3>Aurrerapen orokorra</h3>
-            <p class="muted">Amaitutako atazen ordu estimatuak, guztizkoarekiko.</p>
-          </div>
-          <strong class="pc-num" id="pc-num">0%</strong>
-        </div>
-        <div class="stack" id="pc-stack" role="img"></div>
-        <ul class="legend" id="pc-legend"></ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- IRISMENA -->
-  <section id="irismena" class="section alt">
-    <div class="wrap">
-      <div class="sec-head">
-        <p class="kicker">02</p>
-        <h2>Irismena eta lan-ildoak</h2>
-        <p>1. atalean zortzi lan-ildo daude, ikastaroko moduluei lotuak. Bakoitzak helburu zehatz bat du, eta guztiek batera enpresaren segurtasun-oinarria eraikitzen dute.</p>
-      </div>
-
-      <div class="goal card">
-        <div class="goal-ico" aria-hidden="true">🎯</div>
-        <div>
-          <h3>1. atalaren helburua</h3>
-          <p>Zubizarreta gailetak enpresaren sarea eta sistemak <strong>gotortzea</strong>, haien segurtasuna <strong>auditatzea</strong> (hacking etikoa eta auzitegi-analisia), <strong>araudia</strong> betetzen dela bermatzea eta gorabeherak kudeatzeko <strong>SGSI</strong> bat antolatzea. Emaitza guztiak azaroaren 13an aurkeztuko dira.</p>
-        </div>
-      </div>
-
-      <div class="modules" id="modules"></div>
-    </div>
-  </section>
-
-  <!-- KRONOGRAMA -->
-  <section id="kronograma" class="section">
-    <div class="wrap">
-      <div class="sec-head">
-        <p class="kicker">03</p>
-        <h2>Kronograma</h2>
-        <p>Atazen denbora-banaketa lan-ildoka (Gantt diagrama). Barra bakoitzak ataza baten hasiera- eta bukaera-eguna adierazten ditu; kolorea egoeraren araberakoa da.</p>
-      </div>
-
+      <h2><span>1</span>Laburpena</h2>
+      <p class="sec-lead">Proiektua bi ataletan banatuta dago. Atal bakoitza aurkezpen batekin amaitzen da.</p>
       <div class="phases" id="phases"></div>
-
-      <div class="gantt-card card">
-        <div class="gantt-tools">
-          <ul class="legend" id="gantt-legend"></ul>
-          <span class="muted small">← Mugitu horizontalki mugikorrean</span>
-        </div>
-        <div class="gantt-scroll">
-          <div class="gantt" id="gantt"></div>
-        </div>
-      </div>
+      <ul class="legend" id="legend-top"></ul>
     </div>
   </section>
 
-  <!-- ATAZAK -->
-  <section id="atazak" class="section alt">
+  <section id="kronograma" class="sec alt">
     <div class="wrap">
-      <div class="sec-head">
-        <p class="kicker">04</p>
-        <h2>Atazen zerrenda</h2>
-        <p>Ataza guztiak xehetasunekin. Erabili iragazkiak kide, lan-ildo edo egoera jakin bat ikusteko.</p>
-      </div>
-
-      <div class="filters card">
-        <label>Bilatu<input type="search" id="f-q" placeholder="Adib.: VPN, Nessus…"></label>
-        <label>Kidea<select id="f-kidea"><option value="">Guztiak</option></select></label>
-        <label>Lan-ildoa<select id="f-modulua"><option value="">Guztiak</option></select></label>
-        <label>Egoera<select id="f-egoera"><option value="">Guztiak</option></select></label>
-        <p class="muted small" id="f-count"></p>
-      </div>
-
-      <div class="table-card card">
-        <table class="tasks">
-          <thead>
-            <tr>
-              <th>Ataza</th>
-              <th>Datak</th>
-              <th class="num">Orduak</th>
-              <th>Arduradunak</th>
-              <th>Egoera</th>
-            </tr>
-          </thead>
-          <tbody id="tasks-body"></tbody>
-        </table>
-      </div>
+      <h2><span>2</span>Kronograma</h2>
+      <p class="sec-lead">Barra bakoitza ataza bat da: hasiera-egunetik bukaera-egunera. Barraren koloreak egoera adierazten du eta barnean ordu estimatuak agertzen dira. Asteburuak gris argiz daude.</p>
+      <div class="tabs" role="tablist" id="g-tabs"></div>
+      <div class="card gantt-wrap"><div class="gantt" id="gantt"></div></div>
+      <p class="hint">Mugikorrean, mugitu taula horizontalki. Pasatu sagua barra baten gainetik xehetasunak ikusteko.</p>
     </div>
   </section>
 
-  <!-- TALDEA -->
-  <section id="taldea" class="section">
+  <section id="atazak" class="sec">
     <div class="wrap">
-      <div class="sec-head">
-        <p class="kicker">05</p>
-        <h2>Taldea eta lan-karga</h2>
-        <p>Kide bakoitzak parte hartzen duen atazen kopurua eta ordu estimatuak. Talde-atazetan, ataza osoaren orduak kide bakoitzari zenbatzen zaizkio.</p>
+      <h2><span>3</span>Atazen zerrenda</h2>
+      <p class="sec-lead">Ataza guztiak, atalka eta lan-ildoka (ikastaroko moduluka) taldekatuta. Zenbakiak (adib. <b>1.07</b>) kronogramako berberak dira.</p>
+      <div class="filters no-print">
+        <label>Kidea <select id="f-kidea"><option value="">Guztiak</option></select></label>
+        <label>Egoera <select id="f-egoera"><option value="">Guztiak</option></select></label>
+        <span id="f-count"></span>
       </div>
-      <div class="team" id="team"></div>
-
-      <div class="card matrix-card">
-        <h3>Ardura-matrizea</h3>
-        <p class="muted">Zein kidek parte hartzen duen lan-ildo bakoitzean (gelaxkan: ordu estimatuak).</p>
-        <div class="matrix-scroll"><table class="matrix" id="matrix"></table></div>
-      </div>
+      <div id="tables"></div>
     </div>
   </section>
 
-  <!-- METODOLOGIA -->
-  <section id="metodologia" class="section alt">
+  <section id="taldea" class="sec alt">
     <div class="wrap">
-      <div class="sec-head">
-        <p class="kicker">06</p>
-        <h2>Metodologia eta mugarriak</h2>
-        <p>Nola antolatu den plangintza eta nola jarraitzen zaion.</p>
-      </div>
+      <h2><span>4</span>Taldea eta ardurak</h2>
+      <p class="sec-lead">Kide bakoitzaren atazak eta ordu estimatuak. Talde-atazetan, ataza osoaren orduak parte hartzen duen kide bakoitzari zenbatzen zaizkio.</p>
+      <div class="card table-wrap"><table class="team" id="team"></table></div>
+    </div>
+  </section>
 
-      <div class="grid-2">
-        <div class="card">
-          <h3>Mugarri nagusiak</h3>
-          <ol class="milestones" id="milestones"></ol>
+  <section id="oharrak" class="sec">
+    <div class="wrap">
+      <h2><span>5</span>Oharrak</h2>
+      <div class="notes">
+        <div class="card pad">
+          <h3>Lan-ildoen kodeak</h3>
+          <dl class="codes" id="codes"></dl>
         </div>
-        <div class="card">
-          <h3>Egoeren esanahia</h3>
-          <dl class="states">
-            <div><dt><span class="badge eginda">Eginda</span></dt><dd>Ataza amaituta eta berrikusita dago.</dd></div>
-            <div><dt><span class="badge egiten">Egiten</span></dt><dd>Ataza martxan dago, bukaera-data iritsi gabe.</dd></div>
+        <div class="card pad">
+          <h3>Egoerak</h3>
+          <dl class="codes">
+            <div><dt><span class="badge eginda">Eginda</span></dt><dd>Ataza amaituta dago.</dd></div>
+            <div><dt><span class="badge egiten">Egiten</span></dt><dd>Ataza martxan dago.</dd></div>
             <div><dt><span class="badge egiteke">Egiteke</span></dt><dd>Ataza oraindik hasi gabe dago.</dd></div>
-            <div><dt><span class="badge atzeratuta">Atzeratuta</span></dt><dd>Bukaera-data pasa da eta ataza ez dago amaituta (automatikoki kalkulatzen da).</dd></div>
           </dl>
-        </div>
-        <div class="card">
-          <h3>Nola egin da plangintza</h3>
-          <ul class="ticks">
-            <li><strong>Lan-ildoak moduluka:</strong> ataza bakoitza ikastaroko modulu bati lotuta dago, ebaluazioa errazteko.</li>
-            <li><strong>Mendekotasunak:</strong> lehenik diseinua eta oinarriak (sarea, araudia, arriskuak), gero inplementazioa, eta azkenik auditoria, analisia eta txostenak.</li>
-            <li><strong>Ordu estimatuak:</strong> ataza bakoitzaren konplexutasunaren arabera, 2 eta 6 ordu artean.</li>
-            <li><strong>Banaketa:</strong> sareak eta sistemak Uday eta Ayub; programazioa eta web-lanak Jehangir; hacking etikoa Jehangir eta Amaia; auzitegi-analisia Amaia eta Ayub; araudia eta SGSI talde osoaren artean.</li>
+          <h3 class="mt">Plangintzaren irizpideak</h3>
+          <ul class="plain">
+            <li>Ataza bakoitza ikastaroko modulu bati lotuta dago, ebaluazioa errazteko.</li>
+            <li>Lehenik diseinua eta oinarriak, gero inplementazioa, eta azkenik probak, txostenak eta aurkezpena.</li>
+            <li>Egoerak taldeak eguneratzen ditu lana aurrera doan heinean.</li>
+            <li>Iturri-datuak: <code id="iturria"></code></li>
           </ul>
         </div>
-        <div class="card">
-          <h3>Jarraipena</h3>
-          <ul class="ticks">
-            <li>Ataza bakoitzaren egoera taldeak eguneratzen du lana aurrera doan heinean.</li>
-            <li><strong>Denbora erreala</strong> ataza amaitzean erregistratzen da, estimazioarekin alderatzeko.</li>
-            <li>Atzeratutako atazak hurrengo egunetan berrantolatzen dira, entrega-data mugitu gabe.</li>
-            <li>Iturri-datuak: <code>Zubizarreta_Erronka2_Planifikazioa_v2.xlsx</code></li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="card glossary">
-        <h3>Glosarioa</h3>
-        <dl id="glossary">
-          <div><dt>VLAN / VLSM</dt><dd>Sare logikoki bereiziak / tamaina aldakorreko azpisare-maskarak.</dd></div>
-          <div><dt>DMZ</dt><dd>Kanpotik eskuragarri dauden zerbitzuetarako sare-eremu isolatua.</dd></div>
-          <div><dt>ACL</dt><dd>Sarbide-kontroleko zerrenda: zein trafiko baimentzen edo ukatzen den.</dd></div>
-          <div><dt>802.1X / RADIUS</dt><dd>Sarera konektatu aurretik gailuak eta erabiltzaileak autentifikatzeko estandarra.</dd></div>
-          <div><dt>MFA</dt><dd>Faktore anitzeko autentifikazioa.</dd></div>
-          <div><dt>GPO</dt><dd>Active Directoryko talde-politikak.</dd></div>
-          <div><dt>CVSS</dt><dd>Ahultasunen larritasuna 0–10 eskalan neurtzeko sistema.</dd></div>
-          <div><dt>SGSI</dt><dd>Informazioaren Segurtasuna Kudeatzeko Sistema (ISO/IEC 27001).</dd></div>
-          <div><dt>DPO</dt><dd>Datuak Babesteko Ordezkaria.</dd></div>
-          <div><dt>AEPD</dt><dd>Datuak Babesteko Espainiako Agentzia.</dd></div>
-          <div><dt>OSINT</dt><dd>Iturri irekietako informazio-bilketa.</dd></div>
-          <div><dt>Chain of Custody</dt><dd>Ebidentzien zaintza-katea: nork, noiz eta nola maneiatu dituen.</dd></div>
-        </dl>
       </div>
     </div>
   </section>
 </main>
 
-<footer class="footer">
-  <div class="wrap footer-in">
-    <p><strong>Erronka 2 — Egiturak indartzen</strong> · Zubizarreta gailetak</p>
-    <p class="muted">Jehangir · Uday · Amaia · Ayub — UNI Eibar-Ermua, 2026</p>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <p><b>Erronka 2 — Egiturak indartzen</b> · Zubizarreta gailetak</p>
+    <p>Jehangir · Uday · Amaia · Ayub — UNI Eibar-Ermua, 2026</p>
   </div>
 </footer>
-
-<div class="tip" id="tip" role="tooltip" hidden></div>
 
 <script src="data.js"></script>
 <script src="app.js"></script>
