@@ -1,0 +1,47 @@
+name: Dokumentuak argitaratu
+
+# Zubizarreta_Gailetak_dokumentuak*.zip bat igotzen denean, deskonprimitu
+# eta docs/dokumentuak/<irakasgaia>/ karpetetan antolatzen ditu, eta zip-a ezabatzen du.
+on:
+  push:
+    branches: [main]
+    paths: ['**Zubizarreta_Gailetak_dokumentuak*.zip']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  deskonprimitu:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Zip-a deskonprimitu eta irakasgaika antolatu
+        run: |
+          set -euo pipefail
+          shopt -s globstar nullglob
+          zips=( **/Zubizarreta_Gailetak_dokumentuak*.zip )
+          if [ ${#zips[@]} -eq 0 ]; then echo "Ez dago zip-ik"; exit 0; fi
+          tmp=$(mktemp -d)
+          for z in "${zips[@]}"; do unzip -o -q "$z" -d "$tmp"; done
+          dest=docs/dokumentuak
+          put() {
+            f=$(find "$tmp" -type f -name "$2" | head -n1)
+            if [ -n "$f" ]; then mkdir -p "$dest/$1"; cp "$f" "$dest/$1/$2"; echo "OK    $1/$2"; else echo "FALTA $2"; fi
+          }
+          put ESJ     erronka2_web___Akatsen_txostena_laburtua.docx
+          put OF      Python_automatizazioa___Dokumentazioa.docx
+          put HE      Auditoria_plana_eta_idatzizko_baimena_Zubizarreta_Gailetak.docx
+          put HE      Pentesting_txostena_Zubizarreta_Gailetak.docx
+          put AAI     Sareko_analisi_forentsearen_txostena.docx
+          put AAI     Froga_digitalen_zaintza-katea.docx
+          put AAI     Froga_digitalen_zaintza-katea_txantiloia.docx
+          put ZAA     01_Compliance-plana.docx
+          put ZAA     03_Datu_pertsonalen_babesa.docx
+          put ZG-SGSI 02_SGSI.docx
+          git rm -q -- "${zips[@]}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/dokumentuak
+          git commit -m "Dokumentuak irakasgaika gehitu"
+          git push
