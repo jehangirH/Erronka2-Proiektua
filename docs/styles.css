@@ -217,3 +217,11 @@ tbody tr:last-child td, tbody tr:last-child th { border-bottom: 0; }
 @media (max-width: 900px) { .doc-list { grid-template-columns: 1fr; } }
 @media (max-width: 640px) { .doc-top { flex-wrap: wrap; } .doc-btn { margin-left: 60px; } }
 @media print { .doc-btn { display: none; } .doc-toc { display: block; } }
+.doc-tabs { display: flex; flex-wrap: wrap; margin-bottom: 18px; }
+.doc-tabs .tab { text-decoration: none; }
+.doc-tabs .tab:hover { background: var(--soft); }
+.doc-tabs .tab.on:hover { background: var(--head); }
+.doc-link { margin-left: auto; border: 1px solid var(--line2); background: #fff; color: var(--ink2); font: inherit; font-size: 12.5px; font-weight: 600; padding: 4px 10px; border-radius: 6px; cursor: pointer; max-width: 60%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.doc-link:hover { border-color: var(--accent); color: var(--accent); }
+.doc-group[hidden], .doc-index[hidden] { display: none; }
+@media print { .doc-link, .doc-tabs { display: none; } }
