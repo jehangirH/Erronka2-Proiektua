@@ -170,17 +170,25 @@
   drawTables();
 
   // ---------- 4. Taldea ----------
-  let th = `<thead><tr><th>Kidea</th>${A.map(a => `<th class="num">${a.izena}</th>`).join("")}<th class="num">Guztira</th><th>Lan-ildo nagusiak</th></tr></thead><tbody>`;
+  // Talde-atazetan orduak parte hartzen duten kideen artean berdin banatzen dira.
+  const share = t => t.h / t.kideak.length;
+  const fH = x => String(Math.round(x * 10) / 10).replace(".", ",") + " h";
+  const grand = sum(ALL, t => t.h);
+  let th = `<thead><tr><th>Kidea</th>${A.map(a => `<th class="num">${a.izena}</th>`).join("")}<th class="num">Guztira</th><th>Lan-kargaren zatia</th><th>Lan-ildo nagusiak</th></tr></thead><tbody>`;
   P.taldea.forEach(nm => {
     const mine = ALL.filter(t => t.kideak.includes(nm));
+    const hh = sum(mine, share);
+    const p = Math.round(hh / grand * 100);
     const byCode = {};
-    mine.filter(t => !["PLAN", "AURK"].includes(t.kodea)).forEach(t => byCode[t.kodea] = (byCode[t.kodea] || 0) + t.h);
+    mine.filter(t => !["PLAN", "AURK"].includes(t.kodea)).forEach(t => byCode[t.kodea] = (byCode[t.kodea] || 0) + share(t));
     const codes = Object.entries(byCode).sort((x, y) => y[1] - x[1]);
-    th += `<tr><th>${esc(nm)}</th>${A.map(a => { const ts = a.tasks.filter(t => t.kideak.includes(nm)); return `<td class="num">${ts.length} ataza<small>${sum(ts, t => t.h)} h</small></td>`; }).join("")}
-      <td class="num"><b>${mine.length} ataza</b><small>${sum(mine, t => t.h)} h</small></td>
-      <td>${codes.map(([k, v]) => `<span class="tag" title="${esc(P.moduluak[k] || k)}">${esc(k)} <small>${v} h</small></span>`).join("")}</td></tr>`;
+    th += `<tr><th>${esc(nm)}</th>${A.map(a => { const ts = a.tasks.filter(t => t.kideak.includes(nm)); return `<td class="num">${fH(sum(ts, share))}<small>${ts.length} ataza</small></td>`; }).join("")}
+      <td class="num"><b>${fH(hh)}</b><small>${mine.length} ataza</small></td>
+      <td><div class="share"><div class="share-bar"><i style="width:${hh / grand * 200}%"></i></div><b>% ${p}</b></div></td>
+      <td>${codes.map(([k, v]) => `<span class="tag" title="${esc(P.moduluak[k] || k)}">${esc(k)} <small>${fH(v)}</small></span>`).join("")}</td></tr>`;
   });
-  $("#team").innerHTML = th + "</tbody>";
+  th += `</tbody><tfoot><tr><th>Guztira</th>${A.map(a => `<td class="num">${fH(a.h)}</td>`).join("")}<td class="num"><b>${fH(grand)}</b></td><td colspan="2">Batez beste ${fH(grand / P.taldea.length)} kide bakoitzeko (% ${Math.round(100 / P.taldea.length)})</td></tr></tfoot>`;
+  $("#team").innerHTML = th;
 
   // ---------- 5. Kodeak ----------
   $("#codes").innerHTML = Object.entries(P.moduluak).filter(([k]) => k !== "AURK")

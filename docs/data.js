@@ -1,13 +1,13 @@
 // Erronka 2 · Planifikazioaren datuak
 // Orria eguneratzeko, fitxategi hau bakarrik aldatu behar da.
 // egoera: "eginda" | "egiten" | "egiteke"   ·   datak: "UUUU-HH-EE"
-// Iturria: Zubizarreta_Erronka2_Planifikazioa_v2.xlsx
+// Iturria: Zubizarreta_Erronka2_Planifikazioa_v3.xlsx
 window.PLAN = {
  "proiektua": "Erronka 2 — Egiturak indartzen",
  "enpresa": "Zubizarreta gailetak",
  "ikastaroa": "Zibersegurtasuneko espezializazio-ikastaroa · UNI Eibar-Ermua",
- "eguneratua": "2026-11-11",
- "iturria": "Zubizarreta_Erronka2_Planifikazioa_v2.xlsx",
+ "eguneratua": "2026-11-12",
+ "iturria": "Zubizarreta_Erronka2_Planifikazioa_v3.xlsx",
  "taldea": ["Jehangir", "Uday", "Amaia", "Ayub"],
  "moduluak": {
   "PLAN": "Plangintza eta antolaketa",
@@ -47,7 +47,7 @@ window.PLAN = {
       {"izena": "Active Directory domeinua, GPOak eta 802.1X/RADIUS + MFA ezarri", "hasi": "2026-11-03", "buka": "2026-11-05", "h": 6, "kideak": [ "Uday", "Ayub" ], "egoera": "egiten", "azalpena": "Domeinua muntatu, segurtasun-politikak GPO bidez zabaldu eta sarbidea 802.1X/RADIUS eta MFA bidez babestu."},
       {"izena": "Egoitza nagusia eta U1 arteko VPN-a konfiguratu", "hasi": "2026-11-05", "buka": "2026-11-06", "h": 3, "kideak": [ "Uday" ], "egoera": "egiten", "azalpena": "Bi kokapenen artean site-to-site tunel zifratua konfiguratu."},
       {"izena": "3-2-1 babeskopiak eta zerbitzari zaharra babeskopia-biltegi gisa gotortu", "hasi": "2026-11-06", "buka": "2026-11-07", "h": 3, "kideak": [ "Uday" ], "egoera": "eginda", "azalpena": "3-2-1 estrategia ezarri (3 kopia, 2 euskarri, 1 kanpoan) eta zerbitzari zaharra babeskopia-biltegi gotortu gisa berrerabili."},
-      {"izena": "Honeynet/honeypot (T-Pot) jarri eta probatu", "hasi": "2026-11-10", "buka": "2026-11-11", "h": 2, "kideak": [ "Uday" ], "egoera": "egiteke", "azalpena": "T-Pot plataforma hedatu erasotzaileen jarduera erakartzeko, detektatzeko eta aztertzeko."}
+      {"izena": "Honeynet/honeypot (T-Pot) jarri eta probatu", "hasi": "2026-11-10", "buka": "2026-11-11", "h": 2, "kideak": [ "Ayub" ], "egoera": "egiteke", "azalpena": "T-Pot plataforma hedatu erasotzaileen jarduera erakartzeko, detektatzeko eta aztertzeko."}
      ]
     },
     {
@@ -70,7 +70,7 @@ window.PLAN = {
      "kodea": "HE",
      "izenburua": "Hacking etikoa",
      "atazak": [
-      {"izena": "Auditoria-plana eta idatzizko baimena prestatu", "hasi": "2026-11-05", "buka": "2026-11-05", "h": 2, "kideak": [ "Jehangir", "Amaia" ], "egoera": "egiteke", "azalpena": "Auditoriaren irismena, mugak eta metodologia definitu, eta bezeroaren idatzizko baimena prestatu."},
+      {"izena": "Auditoria-plana eta idatzizko baimena prestatu", "hasi": "2026-11-05", "buka": "2026-11-05", "h": 2, "kideak": [ "Jehangir", "Amaia", "Ayub" ], "egoera": "egiteke", "azalpena": "Auditoriaren irismena, mugak eta metodologia definitu, eta bezeroaren idatzizko baimena prestatu."},
       {"izena": "Zerbitzuen azterketa (Nmap, WhatWeb eta Gobuster)", "hasi": "2026-11-06", "buka": "2026-11-06", "h": 3, "kideak": [ "Amaia" ], "egoera": "eginda", "azalpena": "Ataka eta zerbitzu irekiak Nmap bidez identifikatu, web-teknologiak WhatWeb-ekin detektatu eta direktorio ezkutuak Gobuster-ekin bilatu."},
       {"izena": "Web zerbitzariaren eta aplikazioaren konfigurazioaren azterketa (HTTP, HTTPS, segurtasun-goiburuak eta cookieak)", "hasi": "2026-11-06", "buka": "2026-11-07", "h": 3, "kideak": [ "Jehangir" ], "egoera": "eginda", "azalpena": "HTTP/HTTPS konfigurazioa, segurtasun-goiburuak eta cookieen atributuak (Secure, HttpOnly, SameSite) egiaztatu."},
       {"izena": "Web aplikazioaren segurtasun-probak egitea (SQL Injection, XSS, autentifikazioa eta saioen kudeaketa)", "hasi": "2026-11-09", "buka": "2026-11-10", "h": 4, "kideak": [ "Jehangir" ], "egoera": "eginda", "azalpena": "SQL injekzioa, XSS, autentifikazioa eta saioen kudeaketa probatu proba-ingurunean."},
@@ -142,11 +142,11 @@ window.PLAN = {
      "kodea": "ESJ",
      "izenburua": "Ekoizpen seguruan jartzea — PHP salerosketa-webgunea",
      "atazak": [
-      {"izena": "Datu-basearen egitura diseinatu (erabiltzaileak, produktuak, kategoriak, eskaerak, ordainketak)", "hasi": "2026-12-03", "buka": "2026-12-04", "h": 3, "kideak": [ "Jehangir" ], "egoera": "egiteke", "azalpena": "Datu-basearen eredua diseinatu: erabiltzaileak, produktuak, kategoriak, eskaerak eta ordainketak."},
+      {"izena": "Datu-basearen egitura diseinatu (erabiltzaileak, produktuak, kategoriak, eskaerak, ordainketak)", "hasi": "2026-12-03", "buka": "2026-12-04", "h": 3, "kideak": [ "Jehangir", "Amaia" ], "egoera": "egiteke", "azalpena": "Datu-basearen eredua diseinatu: erabiltzaileak, produktuak, kategoriak, eskaerak eta ordainketak."},
       {"izena": "PHP + MariaDB salerosketa-webgunea garatu (katalogoa, saskia, eskaerak)", "hasi": "2026-12-04", "buka": "2026-12-11", "h": 10, "kideak": [ "Jehangir", "Uday" ], "egoera": "egiteke", "azalpena": "Salerosketa-webgunea garatu: produktu-katalogoa, erosketa-saskia eta eskaeren kudeaketa."},
       {"izena": "Rolak eta baimenak garatu (bezeroa, banatzailea, admin)", "hasi": "2026-12-09", "buka": "2026-12-10", "h": 4, "kideak": [ "Uday" ], "egoera": "egiteke", "azalpena": "Erabiltzaile-rolak (bezeroa, banatzailea, admin) eta bakoitzaren baimenak inplementatu."},
       {"izena": "Segurtasun-kontrolak ezarri: PDO prepared statements, Argon2id, CSRF eta XSS babesa", "hasi": "2026-12-11", "buka": "2026-12-12", "h": 6, "kideak": [ "Jehangir" ], "egoera": "egiteke", "azalpena": "Kontsulta prestatuak (PDO), pasahitzen hash-a Argon2id-ekin eta CSRF eta XSS erasoen aurkako babesa ezarri."},
-      {"izena": "GitHub Actions CI/CD workflow-a konfiguratu (PHPStan, PHPUnit, deploy)", "hasi": "2026-12-14", "buka": "2026-12-15", "h": 4, "kideak": [ "Jehangir" ], "egoera": "egiteke", "azalpena": "GitHub Actions bidez analisi estatikoa (PHPStan), probak (PHPUnit) eta hedapena automatizatu."}
+      {"izena": "GitHub Actions CI/CD workflow-a konfiguratu (PHPStan, PHPUnit, deploy)", "hasi": "2026-12-14", "buka": "2026-12-15", "h": 4, "kideak": [ "Amaia" ], "egoera": "egiteke", "azalpena": "GitHub Actions bidez analisi estatikoa (PHPStan), probak (PHPUnit) eta hedapena automatizatu."}
      ]
     },
     {
