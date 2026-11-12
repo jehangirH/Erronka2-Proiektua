@@ -194,6 +194,48 @@
   $("#codes").innerHTML = Object.entries(P.moduluak).filter(([k]) => k !== "AURK")
     .map(([k, v]) => `<div><dt><span class="code">${esc(k)}</span></dt><dd>${esc(v)}</dd></div>`).join("");
 
+  // ---------- 5. Dokumentuak ----------
+  // Irakasgaika (moduluka) taldekatuta, moduluen ordenan. Aurkibidea goian, eta dokumentu bakoitzak bere atal nagusiak.
+  const DOCS = P.dokumentuak || [];
+  const docBox = $("#docs");
+  if (docBox) {
+    const kodeak = Object.keys(P.moduluak).filter(k => DOCS.some(x => x.kodea === k));
+    const slug = k => "dok-" + k.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+    let n = 0;
+    const idx = el("nav", "card pad doc-index");
+    idx.setAttribute("aria-label", "Dokumentuen aurkibidea");
+    idx.innerHTML = `<h3>Aurkibidea</h3><ol>${kodeak.map(k => {
+      const ds = DOCS.filter(x => x.kodea === k);
+      return `<li><a href="#${slug(k)}"><span class="code">${esc(k)}</span> ${esc(P.moduluak[k])}</a> <small>(${ds.length})</small>
+        <ol>${ds.map(x => `<li><a href="#dok-${++n}">${esc(x.izenburua)}</a></li>`).join("")}</ol></li>`;
+    }).join("")}</ol>`;
+    docBox.append(idx);
+    n = 0;
+    kodeak.forEach(k => {
+      const g = el("div", "doc-group");
+      g.id = slug(k);
+      g.append(el("h3", "atala-h", `<span class="code">${esc(k)}</span> ${esc(P.moduluak[k])}`));
+      const list = el("div", "doc-list");
+      DOCS.filter(x => x.kodea === k).forEach(x => {
+        const c = el("article", "card doc");
+        c.id = `dok-${++n}`;
+        const izena = x.fitxategia.split("/").pop();
+        c.innerHTML = `
+          <div class="doc-top">
+            <span class="doc-ico" aria-hidden="true">DOCX</span>
+            <div class="doc-txt"><h4>${esc(x.izenburua)}</h4><p>${esc(x.azalpena)}</p>
+              <p class="doc-file">${esc(izena)} · ${x.kb} KB</p></div>
+            <a class="doc-btn" href="${encodeURI(x.fitxategia)}" download>Deskargatu</a>
+          </div>
+          ${x.aurkibidea && x.aurkibidea.length ? `<details class="doc-toc"><summary>Aurkibidea (${x.aurkibidea.length} atal)</summary><ul>${x.aurkibidea.map(h => `<li>${esc(h)}</li>`).join("")}</ul></details>` : ""}`;
+        list.append(c);
+      });
+      g.append(list);
+      docBox.append(g);
+    });
+    if (!DOCS.length) docBox.innerHTML = `<p class="empty">Oraindik ez dago dokumenturik.</p>`;
+  }
+
   // ---------- Nabigazioa ----------
   const links = [...document.querySelectorAll(".top nav a")];
   const io = new IntersectionObserver(es => es.forEach(e => {
