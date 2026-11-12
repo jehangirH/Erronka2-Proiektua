@@ -195,12 +195,23 @@
     .map(([k, v]) => `<div><dt><span class="code">${esc(k)}</span></dt><dd>${esc(v)}</dd></div>`).join("");
 
   // ---------- 5. Dokumentuak ----------
-  // Irakasgaika (moduluka) taldekatuta, moduluen ordenan. Aurkibidea goian, eta dokumentu bakoitzak bere atal nagusiak.
+  // Irakasgaika (moduluka) taldekatuta. Irakasgai bakoitzak bere esteka du (#dok-esj, #dok-he...):
+  // esteka horrekin irekita, irakasgai horren dokumentuak bakarrik erakusten dira.
   const DOCS = P.dokumentuak || [];
   const docBox = $("#docs");
   if (docBox) {
     const kodeak = Object.keys(P.moduluak).filter(k => DOCS.some(x => x.kodea === k));
     const slug = k => "dok-" + k.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+    const base = () => location.href.split("#")[0];
+
+    // Irakasgaien estekak (fitxak)
+    const nav = el("nav", "tabs doc-tabs");
+    nav.setAttribute("aria-label", "Irakasgaiak");
+    nav.innerHTML = `<a class="tab" href="#dokumentuak" data-k="">Guztiak <span>${DOCS.length}</span></a>` +
+      kodeak.map(k => `<a class="tab" href="#${slug(k)}" data-k="${esc(k)}" title="${esc(P.moduluak[k])}">${esc(k)} <span>${DOCS.filter(x => x.kodea === k).length}</span></a>`).join("");
+    docBox.append(nav);
+
+    // Aurkibide orokorra
     let n = 0;
     const idx = el("nav", "card pad doc-index");
     idx.setAttribute("aria-label", "Dokumentuen aurkibidea");
@@ -210,15 +221,30 @@
         <ol>${ds.map(x => `<li><a href="#dok-${++n}">${esc(x.izenburua)}</a></li>`).join("")}</ol></li>`;
     }).join("")}</ol>`;
     docBox.append(idx);
+
+    // Irakasgai bakoitzeko taldea
     n = 0;
+    const groups = {};
     kodeak.forEach(k => {
       const g = el("div", "doc-group");
       g.id = slug(k);
-      g.append(el("h3", "atala-h", `<span class="code">${esc(k)}</span> ${esc(P.moduluak[k])}`));
+      const h = el("h3", "atala-h", `<span class="code">${esc(k)}</span> ${esc(P.moduluak[k])}`);
+      const cp = el("button", "doc-link", "Esteka kopiatu");
+      cp.type = "button";
+      cp.title = "Irakasgai honen dokumentuen esteka kopiatu";
+      cp.addEventListener("click", async () => {
+        const url = base() + "#" + slug(k);
+        try { await navigator.clipboard.writeText(url); cp.textContent = "Kopiatuta ✓"; }
+        catch (e) { cp.textContent = url; }
+        setTimeout(() => { cp.textContent = "Esteka kopiatu"; }, 2500);
+      });
+      h.append(cp);
+      g.append(h);
       const list = el("div", "doc-list");
       DOCS.filter(x => x.kodea === k).forEach(x => {
         const c = el("article", "card doc");
         c.id = `dok-${++n}`;
+        c.dataset.k = k;
         const izena = x.fitxategia.split("/").pop();
         c.innerHTML = `
           <div class="doc-top">
@@ -227,13 +253,34 @@
               <p class="doc-file">${esc(izena)} · ${x.kb} KB</p></div>
             <a class="doc-btn" href="${encodeURI(x.fitxategia)}" download>Deskargatu</a>
           </div>
-          ${x.aurkibidea && x.aurkibidea.length ? `<details class="doc-toc"><summary>Aurkibidea (${x.aurkibidea.length} atal)</summary><ul>${x.aurkibidea.map(h => `<li>${esc(h)}</li>`).join("")}</ul></details>` : ""}`;
+          ${x.aurkibidea && x.aurkibidea.length ? `<details class="doc-toc"><summary>Aurkibidea (${x.aurkibidea.length} atal)</summary><ul>${x.aurkibidea.map(t => `<li>${esc(t)}</li>`).join("")}</ul></details>` : ""}`;
         list.append(c);
       });
       g.append(list);
       docBox.append(g);
+      groups[slug(k)] = { k, g };
     });
     if (!DOCS.length) docBox.innerHTML = `<p class="empty">Oraindik ez dago dokumenturik.</p>`;
+
+    // Esteka (hash) bat irakurri eta dagokion irakasgaia erakutsi
+    const show = (k) => {
+      kodeak.forEach(kk => { groups[slug(kk)].g.hidden = !!k && kk !== k; });
+      idx.hidden = !!k;
+      [...nav.children].forEach(a => a.classList.toggle("on", a.dataset.k === (k || "")));
+    };
+    const route = (scroll) => {
+      const h = decodeURIComponent(location.hash.slice(1));
+      if (groups[h]) {
+        show(groups[h].k);
+        if (scroll) $("#dokumentuak").scrollIntoView();
+      } else {
+        show("");
+        const card = h && /^dok-\d+$/.test(h) ? document.getElementById(h) : null;
+        if (card && scroll) card.scrollIntoView();
+      }
+    };
+    window.addEventListener("hashchange", () => route(true));
+    route(true);
   }
 
   // ---------- Nabigazioa ----------
