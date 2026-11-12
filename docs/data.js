@@ -46,8 +46,7 @@ window.PLAN = {
       {"izena": "VLANak, ACLak eta port-security switch-etan konfiguratu", "hasi": "2026-10-30", "buka": "2026-11-03", "h": 5, "kideak": [ "Uday", "Ayub" ], "egoera": "eginda", "azalpena": "Switch-etan VLANak sortu, ACLak aplikatu eta port-security bidez baimendu gabeko gailuak blokeatu."},
       {"izena": "Active Directory domeinua, GPOak eta 802.1X/RADIUS + MFA ezarri", "hasi": "2026-11-03", "buka": "2026-11-05", "h": 6, "kideak": [ "Uday", "Ayub" ], "egoera": "egiten", "azalpena": "Domeinua muntatu, segurtasun-politikak GPO bidez zabaldu eta sarbidea 802.1X/RADIUS eta MFA bidez babestu."},
       {"izena": "Egoitza nagusia eta U1 arteko VPN-a konfiguratu", "hasi": "2026-11-05", "buka": "2026-11-06", "h": 3, "kideak": [ "Uday" ], "egoera": "egiten", "azalpena": "Bi kokapenen artean site-to-site tunel zifratua konfiguratu."},
-      {"izena": "3-2-1 babeskopiak eta zerbitzari zaharra babeskopia-biltegi gisa gotortu", "hasi": "2026-11-06", "buka": "2026-11-07", "h": 3, "kideak": [ "Uday" ], "egoera": "eginda", "azalpena": "3-2-1 estrategia ezarri (3 kopia, 2 euskarri, 1 kanpoan) eta zerbitzari zaharra babeskopia-biltegi gotortu gisa berrerabili."},
-      {"izena": "Honeynet/honeypot (T-Pot) jarri eta probatu", "hasi": "2026-11-10", "buka": "2026-11-11", "h": 2, "kideak": [ "Amaia", "Ayub" ], "egoera": "egiteke", "azalpena": "T-Pot plataforma hedatu erasotzaileen jarduera erakartzeko, detektatzeko eta aztertzeko."}
+      {"izena": "3-2-1 babeskopiak eta zerbitzari zaharra babeskopia-biltegi gisa gotortu", "hasi": "2026-11-06", "buka": "2026-11-07", "h": 3, "kideak": [ "Uday" ], "egoera": "eginda", "azalpena": "3-2-1 estrategia ezarri (3 kopia, 2 euskarri, 1 kanpoan) eta zerbitzari zaharra babeskopia-biltegi gotortu gisa berrerabili."}
      ]
     },
     {
@@ -70,7 +69,7 @@ window.PLAN = {
      "kodea": "HE",
      "izenburua": "Hacking etikoa",
      "atazak": [
-      {"izena": "Auditoria-plana eta idatzizko baimena prestatu", "hasi": "2026-11-05", "buka": "2026-11-05", "h": 2, "kideak": [ "Jehangir", "Amaia" ], "egoera": "egiteke", "azalpena": "Auditoriaren irismena, mugak eta metodologia definitu, eta bezeroaren idatzizko baimena prestatu."},
+      {"izena": "Auditoria-plana eta idatzizko baimena prestatu", "hasi": "2026-11-05", "buka": "2026-11-05", "h": 2, "kideak": [ "Jehangir", "Amaia" ], "egoera": "eginda", "azalpena": "Auditoriaren irismena, mugak eta metodologia definitu, eta bezeroaren idatzizko baimena prestatu."},
       {"izena": "Zerbitzuen azterketa (Nmap, WhatWeb eta Gobuster)", "hasi": "2026-11-06", "buka": "2026-11-06", "h": 3, "kideak": [ "Amaia" ], "egoera": "eginda", "azalpena": "Ataka eta zerbitzu irekiak Nmap bidez identifikatu, web-teknologiak WhatWeb-ekin detektatu eta direktorio ezkutuak Gobuster-ekin bilatu."},
       {"izena": "Web zerbitzariaren eta aplikazioaren konfigurazioaren azterketa (HTTP, HTTPS, segurtasun-goiburuak eta cookieak)", "hasi": "2026-11-06", "buka": "2026-11-07", "h": 3, "kideak": [ "Jehangir" ], "egoera": "eginda", "azalpena": "HTTP/HTTPS konfigurazioa, segurtasun-goiburuak eta cookieen atributuak (Secure, HttpOnly, SameSite) egiaztatu."},
       {"izena": "Web aplikazioaren segurtasun-probak egitea (SQL Injection, XSS, autentifikazioa eta saioen kudeaketa)", "hasi": "2026-11-09", "buka": "2026-11-10", "h": 4, "kideak": [ "Jehangir" ], "egoera": "eginda", "azalpena": "SQL injekzioa, XSS, autentifikazioa eta saioen kudeaketa probatu proba-ingurunean."},
@@ -125,7 +124,8 @@ window.PLAN = {
      "kodea": "SSG",
      "izenburua": "Sareak eta sistemak gotortzea",
      "atazak": [
-      {"izena": "Wazuh SIEM/HIDS instalatu eta alerta-arauak definitu", "hasi": "2026-12-03", "buka": "2026-12-04", "h": 4, "kideak": [ "Ayub" ], "egoera": "egiteke", "azalpena": "Wazuh hedatu ekipoen gertaerak zentralizatzeko, eta erasoak detektatzeko alerta-arauak definitu."}
+      {"izena": "Wazuh SIEM/HIDS instalatu eta alerta-arauak definitu", "hasi": "2026-12-03", "buka": "2026-12-04", "h": 4, "kideak": [ "Ayub" ], "egoera": "egiteke", "azalpena": "Wazuh hedatu ekipoen gertaerak zentralizatzeko, eta erasoak detektatzeko alerta-arauak definitu."},
+      {"izena": "Honeynet/honeypot (T-Pot) jarri eta probatu", "hasi": "2026-12-04", "buka": "2026-12-05", "h": 2, "kideak": [ "Amaia", "Ayub" ], "egoera": "egiteke", "azalpena": "T-Pot plataforma hedatu erasotzaileen jarduera erakartzeko, detektatzeko eta aztertzeko."}
      ]
     },
     {
