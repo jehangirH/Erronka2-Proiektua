@@ -248,7 +248,7 @@
         const izena = x.fitxategia.split("/").pop();
         c.innerHTML = `
           <div class="doc-top">
-            <span class="doc-ico" aria-hidden="true">DOCX</span>
+            <span class="doc-ico" aria-hidden="true">${esc(izena.split(".").pop().toUpperCase())}</span>
             <div class="doc-txt"><h4>${esc(x.izenburua)}</h4><p>${esc(x.azalpena)}</p>
               <p class="doc-file">${esc(izena)} · ${x.kb} KB</p></div>
             <a class="doc-btn" href="${encodeURI(x.fitxategia)}" download>Deskargatu</a>
