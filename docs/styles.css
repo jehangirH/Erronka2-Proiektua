@@ -187,3 +187,33 @@ tbody tr:last-child td, tbody tr:last-child th { border-bottom: 0; }
   .gantt-wrap { overflow: visible; }
   * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 }
+
+/* ---------- Dokumentuak ---------- */
+.doc-index h3 { font-size: 16px; margin-bottom: 12px; }
+.doc-index ol { margin: 0; padding-left: 20px; }
+.doc-index > ol > li { margin: 8px 0; font-weight: 600; }
+.doc-index > ol > li > small { color: var(--muted); font-weight: 400; }
+.doc-index ol ol { margin-top: 4px; font-weight: 400; font-size: 14px; }
+.doc-index li::marker { color: var(--accent); }
+.doc-index a { color: var(--ink2); text-decoration: none; }
+.doc-index a:hover { color: var(--accent); text-decoration: underline; }
+.doc-group { margin-top: 32px; scroll-margin-top: 70px; }
+.doc-group .atala-h { display: flex; align-items: center; gap: 8px; }
+.doc-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 12px; align-items: start; }
+.doc { padding: 18px 20px; scroll-margin-top: 80px; }
+.doc-top { display: flex; gap: 14px; align-items: flex-start; }
+.doc-ico { flex: none; width: 46px; height: 56px; border-radius: 4px; background: var(--accent-soft); border: 1px solid var(--line2); color: var(--accent); font-size: 10.5px; font-weight: 700; display: grid; place-items: end center; padding-bottom: 8px; }
+.doc-txt { flex: 1; min-width: 0; }
+.doc-txt h4 { margin: 0 0 4px; font-size: 15.5px; color: var(--head); line-height: 1.3; }
+.doc-txt p { font-size: 14px; color: var(--ink2); }
+.doc-txt .doc-file { margin-top: 6px; font-size: 12.5px; color: var(--muted); word-break: break-all; }
+.doc-btn { flex: none; padding: 7px 14px; border-radius: 6px; background: var(--accent); color: #fff; font-size: 13.5px; font-weight: 600; text-decoration: none; white-space: nowrap; }
+.doc-btn:hover { background: var(--ink2); }
+.doc-toc { margin-top: 12px; border-top: 1px solid var(--line); padding-top: 10px; font-size: 14px; }
+.doc-toc summary { cursor: pointer; font-weight: 600; color: var(--ink2); }
+.doc-toc ul { margin: 8px 0 0; padding-left: 4px; list-style: none; color: var(--ink2); }
+.doc-toc li { padding: 3px 0; border-bottom: 1px dashed var(--line); }
+.doc-toc li:last-child { border-bottom: 0; }
+@media (max-width: 900px) { .doc-list { grid-template-columns: 1fr; } }
+@media (max-width: 640px) { .doc-top { flex-wrap: wrap; } .doc-btn { margin-left: 60px; } }
+@media print { .doc-btn { display: none; } .doc-toc { display: block; } }
