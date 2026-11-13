@@ -20,6 +20,7 @@ NS = {"w": W}
 def w(t): return "{%s}%s" % (W, t)
 
 MODULUAK = {
+    "SSG": ("SSG", "Sareak eta sistemak gotortzea"),
     "ESJ": ("ESJ", "Ekoizpen seguruan jartzea"),
     "OF": ("OF", "Programazioa (Python)"),
     "HE": ("HE", "Hacking etikoa"),
@@ -37,6 +38,12 @@ KOLOREAK = {
     "E2C79A": "E8D9C3", "C98A3B": "C8803E", "A9691F": "C8803E", "4A2C1A": "2A1C15",
     "3A2A1E": "2A1C15",
 }
+# Diseinu urdina (Sareak dokumentua): betegarriak eta testu-koloreak bereiz
+URDIN_FILL = {"10273C": "392820", "123151": "2A1C15", "EDF3F5": "F5EFE6", "F2F6FA": "FAF6F0"}
+URDIN_COLOR = {"253345": "2A1C15", "13334A": "2A1C15", "10273C": "2A1C15", "00717B": "C8803E",
+               "546776": "8C7767", "123151": "2A1C15"}
+HEADER_XML = ('<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n'
+              '<w:hdr xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:p/></w:hdr>')
 
 ESTILOAK = {
     "Heading1": '<w:style xmlns:w="%s" w:type="paragraph" w:styleId="Heading1"><w:name w:val="heading 1"/><w:basedOn w:val="Normal"/><w:next w:val="Normal"/><w:uiPriority w:val="9"/><w:qFormat/><w:pPr><w:keepNext/><w:pBdr><w:bottom w:val="single" w:sz="6" w:space="2" w:color="C8803E"/></w:pBdr><w:spacing w:before="320" w:after="120" w:line="240" w:lineRule="auto"/><w:outlineLvl w:val="0"/></w:pPr><w:rPr><w:rFonts w:ascii="Calibri" w:hAnsi="Calibri" w:cs="Calibri"/><w:b/><w:bCs/><w:color w:val="2A1C15"/><w:sz w:val="30"/><w:szCs w:val="30"/></w:rPr></w:style>',
@@ -107,15 +114,15 @@ def meta_xml(rows, width):
             '<w:tblGrid><w:gridCol w:w="%d"/><w:gridCol w:w="%d"/></w:tblGrid>%s</w:tbl>') % (W, width, borders, c1, c2, trs)
 
 
-def toc_xml(entries, tabpos):
+def toc_xml(entries, tabpos, lv=2):
     """entries: [(level, text, bookmark, page)]"""
     out = []
     n = len(entries)
     for i, (lvl, txt, bm, page) in enumerate(entries):
         r = ""
         if i == 0:
-            r += ('<w:r><w:fldChar w:fldCharType="begin"/></w:r><w:r><w:instrText xml:space="preserve"> TOC \\o "1-2" \\h \\z \\u </w:instrText></w:r>'
-                  '<w:r><w:fldChar w:fldCharType="separate"/></w:r>')
+            r += ('<w:r><w:fldChar w:fldCharType="begin"/></w:r><w:r><w:instrText xml:space="preserve"> TOC \\o "1-%d" \\h \\z \\u </w:instrText></w:r>'
+                  '<w:r><w:fldChar w:fldCharType="separate"/></w:r>') % lv
         r += ('<w:hyperlink w:anchor="%s" w:history="1"><w:r><w:rPr><w:noProof/></w:rPr><w:t xml:space="preserve">%s</w:t></w:r>'
               '<w:r><w:rPr><w:noProof/></w:rPr><w:tab/></w:r>'
               '<w:r><w:rPr><w:noProof/></w:rPr><w:fldChar w:fldCharType="begin"/></w:r>'
@@ -125,7 +132,8 @@ def toc_xml(entries, tabpos):
               '<w:r><w:rPr><w:noProof/></w:rPr><w:fldChar w:fldCharType="end"/></w:r></w:hyperlink>') % (bm, esc(txt), bm, page)
         if i == n - 1:
             r += '<w:r><w:fldChar w:fldCharType="end"/></w:r>'
-        out.append('<w:p><w:pPr><w:pStyle w:val="TOC%d"/><w:tabs><w:tab w:val="right" w:leader="dot" w:pos="%d"/></w:tabs></w:pPr>%s</w:p>' % (lvl, tabpos, r))
+        sp = '<w:spacing w:before="0" w:after="10"/>' if n > 25 else ""
+        out.append('<w:p><w:pPr><w:pStyle w:val="TOC%d"/><w:tabs><w:tab w:val="right" w:leader="dot" w:pos="%d"/></w:tabs>%s</w:pPr>%s</w:p>' % (lvl, tabpos, sp, r))
     if not out:
         out.append('<w:p><w:r><w:t>—</w:t></w:r></w:p>')
     return ('<w:sdt xmlns:w="%s"><w:sdtPr><w:alias w:val="Aurkibidea"/><w:tag w:val="zg-aurkibidea"/><w:docPartObj><w:docPartGallery w:val="Table of Contents"/>'
@@ -134,6 +142,30 @@ def toc_xml(entries, tabpos):
 TOC_TITLE = ('<w:p xmlns:w="%s"><w:pPr><w:keepNext/><w:spacing w:before="240" w:after="200"/></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Calibri" w:hAnsi="Calibri" w:cs="Calibri"/>'
              '<w:b/><w:bCs/><w:color w:val="2A1C15"/><w:sz w:val="30"/><w:szCs w:val="30"/></w:rPr><w:t>Aurkibidea</w:t></w:r></w:p>') % W
 SPACER = '<w:p xmlns:w="%s"><w:pPr><w:spacing w:after="120"/></w:pPr></w:p>' % W
+
+
+def family_of(docxml):
+    u = docxml.upper()
+    if "F0D6A5" in u[:20000]:
+        return "beixa"
+    if 'W:FILL="10273C"' in u and 'W:FILL="EDF3F5"' in u:
+        return "urdina"
+    return "iluna"
+
+
+def recolor_urdin(xml):
+    for a, b in URDIN_FILL.items():
+        xml = re.sub(r'(w:fill=")%s(")' % a, r"\g<1>%s\2" % b, xml, flags=re.I)
+    for a, b in URDIN_COLOR.items():
+        xml = re.sub(r'(<w:color w:val=")%s(")' % a, r"\g<1>%s\2" % b, xml, flags=re.I)
+        xml = re.sub(r'(w:color=")%s(")' % a, r"\g<1>%s\2" % b, xml, flags=re.I)
+    return re.sub(r'(w:(?:ascii|hAnsi|cs|eastAsia)=")(?:Aptos|Carlito)(")', r"\1Calibri\2", xml)
+
+
+def sentence_case(t):
+    m = re.match(r"^([^A-Za-z\u00C0-\u017F]*)(.*)$", t)
+    pre, rest = m.group(1), m.group(2)
+    return pre + rest[:1].upper() + rest[1:].lower()
 
 
 def recolor(xml):
@@ -153,9 +185,11 @@ def text_width(body):
 
 def transform(docxml, stylesxml, folder):
     code, modname = MODULUAK[folder]
-    old_family = "F0D6A5" in docxml.upper()[:20000]
-    if old_family:
+    family = family_of(docxml)
+    if family == "beixa":
         docxml = recolor(docxml); stylesxml = recolor(stylesxml)
+    elif family == "urdina":
+        docxml = recolor_urdin(docxml); stylesxml = recolor_urdin(stylesxml)
     root = etree.fromstring(docxml.encode("utf-8"))
     body = root.find(w("body"))
     width = text_width(body)
@@ -165,13 +199,29 @@ def transform(docxml, stylesxml, folder):
 
     # 1) Azaleko banda
     first = kids[0]
-    assert first.tag == w("tbl"), "lehen elementua ez da banda-taula"
-    texts = [text_of(p).strip() for p in first.iter(w("p"))]
+    if first.tag == w("tbl"):
+        texts = [text_of(p).strip() for p in first.iter(w("p"))]
+    else:
+        # Azal-orria paragrafoz egina (diseinu urdina): lehen taula arteko paragrafoak
+        cover = []
+        for el in kids:
+            if el.tag == w("tbl"):
+                break
+            cover.append(el)
+        texts = [text_of(p).strip() for p in cover]
+        texts = [t for t in texts if t and norm(t) != norm(ENPRESA)]
+        for el in cover:
+            body.remove(el)
+        first = etree.Element(w("p")); body.insert(0, first)
     texts = [t for t in texts if t and t.replace("●", "").strip()]
     eyebrow_old = texts[0] if texts and texts[0] == texts[0].upper() else None
     rest = texts[1:] if eyebrow_old else texts
     title = rest[0] if rest else "Dokumentua"
     subtitle = rest[1] if len(rest) > 1 else None
+    if title == title.upper():
+        title = sentence_case(title)
+        if eyebrow_old and "ZUBIZARRETA" not in eyebrow_old.upper():
+            title = sentence_case(eyebrow_old) + " — " + title.lower()
     if not subtitle and eyebrow_old and "ZUBIZARRETA" not in eyebrow_old.upper():
         subtitle = eyebrow_old.capitalize()
     eyebrow = "ZUBIZARRETA GAILETAK · ERRONKA 2 · " + modname.upper()
@@ -185,7 +235,7 @@ def transform(docxml, stylesxml, folder):
         while nxt() is not None and is_empty_p(nxt()):
             body.remove(nxt())
     drop_empty()
-    has_meta = nxt() is not None and nxt().tag == w("tbl") and text_of(nxt()).strip().startswith("Datua")
+    has_meta = nxt() is not None and nxt().tag == w("tbl") and text_of(nxt()).strip().upper().startswith(("DATUA", "IDENTIFIKAZIOA"))
     if has_meta:
         idx += 1; drop_empty()
     while True:
@@ -197,7 +247,27 @@ def transform(docxml, stylesxml, folder):
             body.remove(el); continue
         if is_empty_p(el):
             body.remove(el); continue
+        st_ = el.find("./w:pPr/w:pStyle", NS) if el.tag == w("p") else None
+        if st_ is not None and st_.get(w("val")) == "InfoSmall":
+            idx += 1; continue
         break
+    # Aurreko aurkibide estatikoa (izenburua + zerrenda) kendu; letra-tamainak gorde
+    casemap = {}
+    for p in list(body.findall(w("p"))):
+        ps_ = p.find("./w:pPr/w:pStyle", NS)
+        if ps_ is not None and ps_.get(w("val")) == "Heading1" and text_of(p).strip().upper() == "AURKIBIDEA":
+            el = p.getnext()
+            body.remove(p)
+            while el is not None and el.tag == w("p"):
+                s2 = el.find("./w:pPr/w:pStyle", NS)
+                if s2 is not None and s2.get(w("val")).startswith("Heading"):
+                    break
+                nx = el.getnext()
+                t = re.sub(r"\s+", " ", text_of(el)).strip()
+                if t:
+                    casemap[norm(t)] = t
+                body.remove(el); el = nx
+            break
     ins = []
     if not has_meta:
         ins.append(X(meta_xml([("Proiektua", PROIEKTUA), ("Enpresa", ENPRESA), ("Modulua", "%s — %s" % (code, modname)),
@@ -234,6 +304,12 @@ def transform(docxml, stylesxml, folder):
         txt = re.sub(r"\s+", " ", text_of(p)).strip()
         if not txt:
             continue
+        if family == "urdina" and txt == txt.upper() and re.search(r"[A-Z]", txt):
+            txt = casemap.get(norm(txt)) or sentence_case(txt)
+            ts = p.findall(".//" + w("t"))
+            ts[0].text = txt
+            for t in ts[1:]:
+                t.text = ""
         if lvl == 1 and first_h1:
             pb = ppr.find(w("pageBreakBefore"))
             if pb is None:
@@ -253,6 +329,12 @@ def transform(docxml, stylesxml, folder):
             p.insert(list(p).index(ppr) + 1, bs); p.append(be)
             entries.append([lvl, txt, bm, "0"])
 
+    # Sarrera gehiegi badaude, 1. maila bakarrik
+    toc_lv = 2
+    if len(entries) > 60:
+        entries = [e for e in entries if e[0] == 1]
+        toc_lv = 1
+
     # 4) Estiloak
     sroot = etree.fromstring(stylesxml.encode("utf-8"))
     for sid, sx in ESTILOAK.items():
@@ -262,13 +344,13 @@ def transform(docxml, stylesxml, folder):
             sroot.replace(old, new)
         else:
             sroot.append(new)
-    return root, toc_pos, entries, width, etree.tostring(sroot, xml_declaration=True, encoding="UTF-8", standalone=True)
+    return root, toc_pos, entries, width, toc_lv, etree.tostring(sroot, xml_declaration=True, encoding="UTF-8", standalone=True)
 
 
-def build(root, toc_pos, entries, width):
+def build(root, toc_pos, entries, width, lv=2):
     r = copy.deepcopy(root)
     body = r.find(w("body"))
-    body.insert(toc_pos, X(toc_xml(entries, width - 10)))
+    body.insert(toc_pos, X(toc_xml(entries, width - 10, lv)))
     return etree.tostring(r, xml_declaration=True, encoding="UTF-8", standalone=True)
 
 
@@ -326,20 +408,26 @@ def process(path, folder):
         docxml = z.read("word/document.xml").decode("utf-8")
         stylesxml = z.read("word/styles.xml").decode("utf-8")
         extra = {}
+        if family_of(docxml) == "urdina":
+            for nm in names:
+                if re.match(r"word/header\d*\.xml$", nm):
+                    extra[nm] = HEADER_XML.encode("utf-8")
+                elif nm == "word/numbering.xml":
+                    extra[nm] = recolor_urdin(z.read(nm).decode("utf-8")).encode("utf-8")
         if "F0D6A5" in docxml.upper()[:20000]:
             for nm in names:
                 if nm in ("word/numbering.xml",) or re.match(r"word/(header|footnotes|endnotes)\d*\.xml$", nm):
                     extra[nm] = recolor(z.read(nm).decode("utf-8")).encode("utf-8")
-    root, toc_pos, entries, width, styles = transform(docxml, stylesxml, folder)
+    root, toc_pos, entries, width, lv, styles = transform(docxml, stylesxml, folder)
     repl = dict(extra)
     repl["word/styles.xml"] = styles
     for nm in names:
         if re.match(r"word/footer[^/]*\.xml$", nm):
             repl[nm] = FOOTER_XML.encode("utf-8")
-    repl["word/document.xml"] = build(root, toc_pos, entries, width)
+    repl["word/document.xml"] = build(root, toc_pos, entries, width, lv)
     write_docx(path, path, repl)
     missing, npages = find_pages(path, entries)
-    repl["word/document.xml"] = build(root, toc_pos, entries, width)
+    repl["word/document.xml"] = build(root, toc_pos, entries, width, lv)
     write_docx(path, path, repl)
     print("%-62s %2d sarrera, %2d orri%s" % (os.path.relpath(path), len(entries), npages,
           ("  (aurkitu gabe: %d)" % missing) if missing else ""))
